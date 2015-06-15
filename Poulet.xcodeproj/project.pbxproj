@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D787D4B71B2E83DA005D5603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4B61B2E83DA005D5603 /* AppDelegate.swift */; };
 		D787D4B91B2E83DA005D5603 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4B81B2E83DA005D5603 /* ListViewController.swift */; };
-		D787D4BB1B2E83DA005D5603 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4BA1B2E83DA005D5603 /* DetailViewController.swift */; };
+		D787D4BB1B2E83DA005D5603 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */; };
 		D787D4BE1B2E83DA005D5603 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D787D4BC1B2E83DA005D5603 /* Main.storyboard */; };
 		D787D4C01B2E83DA005D5603 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D787D4BF1B2E83DA005D5603 /* Images.xcassets */; };
 		D787D4C31B2E83DA005D5603 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */; };
@@ -31,7 +31,7 @@
 		D787D4B51B2E83DA005D5603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D787D4B61B2E83DA005D5603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D787D4B81B2E83DA005D5603 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		D787D4BA1B2E83DA005D5603 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
 		D787D4BD1B2E83DA005D5603 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D787D4BF1B2E83DA005D5603 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D787D4C21B2E83DA005D5603 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 			children = (
 				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
 				D787D4B81B2E83DA005D5603 /* ListViewController.swift */,
-				D787D4BA1B2E83DA005D5603 /* DetailViewController.swift */,
+				D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */,
 				D787D4BC1B2E83DA005D5603 /* Main.storyboard */,
 				D787D4BF1B2E83DA005D5603 /* Images.xcassets */,
 				D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */,
@@ -215,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D787D4BB1B2E83DA005D5603 /* DetailViewController.swift in Sources */,
+				D787D4BB1B2E83DA005D5603 /* ReminderViewController.swift in Sources */,
 				D787D4B91B2E83DA005D5603 /* ListViewController.swift in Sources */,
 				D787D4B71B2E83DA005D5603 /* AppDelegate.swift in Sources */,
 			);
@@ -415,6 +415,7 @@
 				D787D4D41B2E83DA005D5603 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D787D4D51B2E83DA005D5603 /* Build configuration list for PBXNativeTarget "PouletTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +424,7 @@
 				D787D4D71B2E83DA005D5603 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
