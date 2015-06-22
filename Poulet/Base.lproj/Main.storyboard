@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Master-->
@@ -107,11 +108,64 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Reminders" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Reminders" id="Zdf-7t-Un8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Cy2-sY-OaR">
+                            <connections>
+                                <action selector="addReminder:" destination="7bK-jq-Zjz" id="t2E-Fv-jy9"/>
+                                <segue destination="dS6-dw-JWm" kind="popoverPresentation" popoverAnchorBarButtonItem="Cy2-sY-OaR" id="qBY-CX-c2B">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
+        </scene>
+        <!--Add Reminder View Controller-->
+        <scene sceneID="e8z-6e-iEn">
+            <objects>
+                <viewController id="Vtj-1q-t8O" customClass="AddReminderViewController" customModule="Poulet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="as9-AO-1UI"/>
+                        <viewControllerLayoutGuide type="bottom" id="rbT-Pk-zD5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LnA-7a-bBZ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
+                                <rect key="frame" x="16" y="72" width="568" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="trailing" secondItem="LnA-7a-bBZ" secondAttribute="trailingMargin" id="DwU-GP-lNN"/>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="Ucd-it-U5X"/>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="top" secondItem="as9-AO-1UI" secondAttribute="bottom" constant="8" symbolic="YES" id="fTH-N5-R0V"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Ttq-k3-Kiy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="64i-qk-Gde">
+                            <connections>
+                                <segue destination="86k-8H-aLD" kind="unwind" identifier="cancel" unwindAction="unwindToList:" id="ae9-ZC-X7m"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="inputField" destination="jPf-h7-nC9" id="4Ui-Z2-vSq"/>
+                        <segue destination="86k-8H-aLD" kind="unwind" identifier="add" unwindAction="unwindToList:" id="13s-a2-89s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mo6-CT-vD3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="86k-8H-aLD" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2260" y="-630"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
@@ -127,6 +181,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-45" y="129"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Hl2-w3-7LJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dS6-dw-JWm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5xx-Hk-oGP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Vtj-1q-t8O" kind="relationship" relationship="rootViewController" id="puQ-8a-6Bm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nMT-3I-bh9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1448" y="-630"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
