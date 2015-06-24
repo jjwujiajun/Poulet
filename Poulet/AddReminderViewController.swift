@@ -39,9 +39,59 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
-    @IBAction func relativeTimeButtonTouchUp(sender: UIButton) {
+    @IBAction func relativeTimeButtonTouchUp(button: UIButton) {
+        if let option = button.titleLabel?.text {
+            switch option {
+            case "+ 10 min":
+                datePicker.date = NSDate(timeInterval: 10 * Time.Minute, sinceDate: datePicker.date)
+            case "+ 30 min":
+                datePicker.date = NSDate(timeInterval: 30 * Time.Minute, sinceDate: datePicker.date)
+            case "+ 1 hour":
+                datePicker.date = NSDate(timeInterval: 1 * Time.Hour, sinceDate: datePicker.date)
+            case "+ 1 day":
+                datePicker.date = NSDate(timeInterval: 1 * Time.Day, sinceDate: datePicker.date)
+            case "- 10 min":
+                datePicker.date = NSDate(timeInterval: -10 * Time.Minute, sinceDate: datePicker.date)
+            case "- 30 min":
+                datePicker.date = NSDate(timeInterval: -30 * Time.Minute, sinceDate: datePicker.date)
+            case "- 1 hour":
+                datePicker.date = NSDate(timeInterval: -1 * Time.Hour, sinceDate: datePicker.date)
+            case "- 1 day":
+                datePicker.date = NSDate(timeInterval: -1 * Time.Day, sinceDate: datePicker.date)
+            default:
+                break
+            }
+            timeLabelDate = datePicker.date
+        }
     }
-    @IBAction func absoluteTimeButtonTouchUp(sender: UIButton) {
+    @IBAction func absoluteTimeButtonTouchUp(button: UIButton) {
+        if let option = button.titleLabel?.text {
+            var hourSet = 0.0;
+            switch option {
+            case "Morning":
+                hourSet = 8
+            case "Noon":
+                hourSet = 13
+            case "Evening":
+                hourSet = 19
+            case "Night":
+                hourSet = 22
+            default:
+                break
+            }
+            if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
+                let currentHour = Double(gregorian.component(.CalendarUnitHour, fromDate: NSDate()))
+                let currentMinute = Double(gregorian.component(.CalendarUnitMinute, fromDate: NSDate()))
+                var forwardedTime = 0.0
+                if currentHour >= hourSet {
+                    forwardedTime = (24 - currentHour + hourSet) * Time.Hour - currentMinute * Time.Minute
+                } else {
+                    forwardedTime = (hourSet - currentHour) * Time.Hour - currentMinute * Time.Minute
+                }
+                datePicker.date = NSDate(timeInterval: forwardedTime, sinceDate: NSDate())
+            }
+            timeLabelDate = datePicker.date
+        }
     }
     @IBAction func datePickerValueChanged(datePicker: UIDatePicker) {
         timeLabelDate = datePicker.date

@@ -171,19 +171,6 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scx-ge-fjn">
-                                <rect key="frame" x="160" y="180" width="136" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="+ 30 min">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                </variation>
-                                <connections>
-                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="bzR-mr-VXe"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3L-xU-c50">
                                 <rect key="frame" x="304" y="180" width="136" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -343,7 +330,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDO-JI-Kpk">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Remind">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -388,6 +375,19 @@
                                 </variation>
                                 <connections>
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="E7N-tD-rvn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scx-ge-fjn">
+                                <rect key="frame" x="160" y="180" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="+ 30 min">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="bzR-mr-VXe"/>
                                 </connections>
                             </button>
                         </subviews>
