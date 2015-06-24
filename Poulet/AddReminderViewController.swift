@@ -98,15 +98,17 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addButtonTouchUp(sender: UIButton) {
-        reminder.name = inputField.text
-        reminder.dueDate = datePicker.date
+        if count(inputField.text) > 0 {
+            reminder.name = inputField.text
+            reminder.dueDate = datePicker.date
+        }
         
         performSegueWithIdentifier("add", sender: self)
     }
     
-    var reminder = Reminder()
+    private var reminder = Reminder()
     
-    var timeLabelDate = NSDate() {
+    private var timeLabelDate = NSDate() {
         didSet {
             var dateString: String? = ""
             var timeString: String? = ""
@@ -157,7 +159,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    var timeSectionIsEnabled = false {
+    private var timeSectionIsEnabled = false {
         didSet {
             timeLabel.enabled = timeSectionIsEnabled
             relativeTimeButton1.enabled = timeSectionIsEnabled
@@ -182,30 +184,36 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // MARK: - View
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         inputField.delegate = self
+        inputField.addTarget(self, action:"textFieldDidClear", forControlEvents: .EditingChanged)
         timeSectionIsEnabled = false
         datePicker.minimumDate = NSDate()
         datePicker.date = NSDate(timeIntervalSinceNow: 11 * Time.Minute)
     }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         inputField.becomeFirstResponder()
     }
     
-    // MARK: - Text Field Delegate
+    // MARK: - Text Field
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if count(inputField.text ?? "") > 0 {
             textField.resignFirstResponder()
             timeSectionIsEnabled = true
             timeLabelDate = datePicker.date
-            println(datePicker.date)
         }
         return true // if true, autocorrect and autocapitalization will be triggered
+    }
+    
+    func textFieldDidClear() {
+        if count(inputField.text ?? "") == 0 {
+            timeSectionIsEnabled = false
+        }
     }
     
     // MARK: - Navigation
