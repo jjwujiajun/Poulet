@@ -64,9 +64,8 @@ class ListViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showReminder" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let name = reminders[indexPath.row].name as String
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! ReminderViewController
-                controller.detailItem = name
+                controller.detailItem = reminders[indexPath.row]
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

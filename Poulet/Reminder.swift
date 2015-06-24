@@ -10,7 +10,7 @@ import Foundation
 
 class Reminder {
     
-    var name = ""
+    var name: String? = ""
     var dueDate = NSDate()
     
 }

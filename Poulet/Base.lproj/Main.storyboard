@@ -32,6 +32,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q70-qc-KEL">
+                                <rect key="frame" x="279" y="317" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Detail view content goes here" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0XM-y9-sOw">
                                 <rect key="frame" x="20" y="292" width="560" height="17"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -42,15 +48,26 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="q70-qc-KEL" secondAttribute="trailing" constant="263" id="CNo-8u-ruu"/>
+                            <constraint firstItem="q70-qc-KEL" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" constant="263" id="Mf4-x1-Jmf"/>
+                            <constraint firstItem="0XM-y9-sOw" firstAttribute="centerX" secondItem="q70-qc-KEL" secondAttribute="centerX" id="SPf-QQ-SnC"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="20" symbolic="YES" id="Tsc-yG-G1q"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="jWN-iV-94e"/>
+                            <constraint firstItem="q70-qc-KEL" firstAttribute="top" secondItem="0XM-y9-sOw" secondAttribute="bottom" constant="8" symbolic="YES" id="oe1-FQ-Bnb"/>
                             <constraint firstAttribute="trailing" secondItem="0XM-y9-sOw" secondAttribute="trailing" constant="20" symbolic="YES" id="tHV-ZD-HQj"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="CNo-8u-ruu"/>
+                                <exclude reference="Mf4-x1-Jmf"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
                     <connections>
-                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
+                        <outlet property="reminderDateLabel" destination="q70-qc-KEL" id="gHT-jQ-UNX"/>
+                        <outlet property="reminderNameLabel" destination="0XM-y9-sOw" id="YDM-xb-szI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -135,18 +152,349 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
                                 <rect key="frame" x="16" y="72" width="568" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="At..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIh-CK-Pbe">
+                                <rect key="frame" x="16" y="104" width="568" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="RrK-Vn-mEt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="RrK-Vn-mEt"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scx-ge-fjn">
+                                <rect key="frame" x="160" y="180" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="+ 30 min">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="bzR-mr-VXe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3L-xU-c50">
+                                <rect key="frame" x="304" y="180" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="+ 1 hour">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="NX3-eK-1wj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7Fb-Wk-1xc">
+                                <rect key="frame" x="16" y="180" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="+ 10 min">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="O7I-kG-8PE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZoI-Nu-9VH">
+                                <rect key="frame" x="160" y="224" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="- 30 min">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="TTT-R7-uTC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8lX-7h-MLa">
+                                <rect key="frame" x="304" y="224" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="- 1 hour">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="2XJ-po-LkK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cKG-DB-HPa">
+                                <rect key="frame" x="16" y="224" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="- 10 min">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="gI3-fw-ubi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="bjy-eg-g6a">
+                                <rect key="frame" x="16" y="136" width="136" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="MmJ-34-bQN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Morning">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="MmJ-34-bQN"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Vo2-Ls-Ce5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A1d-HT-oi4">
+                                <rect key="frame" x="448" y="136" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Night">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Gpk-rY-U8B"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="w1C-vN-1Dw">
+                                <rect key="frame" x="304" y="136" width="136" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="flF-Zb-jO3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Evening">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="flF-Zb-jO3"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Tli-eH-6gC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Uuo-x5-ZBa">
+                                <rect key="frame" x="160" y="136" width="136" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="L4v-VW-foY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Noon">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="L4v-VW-foY"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="W29-bC-G0B"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Dkp-Hn-G8T">
+                                <rect key="frame" x="448" y="224" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="- 1 day">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="ndW-rY-jwu"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="45b-P4-3ok">
+                                <rect key="frame" x="0.0" y="364" width="600" height="192"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDO-JI-Kpk">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="7Gw-Fx-bDU"/>
+                                        </connections>
+                                    </button>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="NA3-22-gfh">
+                                        <rect key="frame" x="140" y="30" width="320" height="162"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="456632761.59713501">
+                                            <!--2015-06-22 02:26:01 +0000-->
+                                        </date>
+                                        <connections>
+                                            <action selector="datePickerValueChanged:" destination="Vtj-1q-t8O" eventType="valueChanged" id="YVG-b9-KUk"/>
+                                        </connections>
+                                    </datePicker>
+                                </subviews>
+                                <color key="backgroundColor" red="0.83092645200000004" green="0.83092645200000004" blue="0.83092645200000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="NA3-22-gfh" firstAttribute="top" secondItem="45b-P4-3ok" secondAttribute="top" constant="30" id="8qz-Rf-KJo"/>
+                                    <constraint firstItem="JDO-JI-Kpk" firstAttribute="top" secondItem="45b-P4-3ok" secondAttribute="top" id="A33-oW-jEw"/>
+                                    <constraint firstItem="NA3-22-gfh" firstAttribute="top" secondItem="JDO-JI-Kpk" secondAttribute="bottom" id="MBE-Dh-UYv"/>
+                                    <constraint firstAttribute="centerX" secondItem="NA3-22-gfh" secondAttribute="centerX" id="XLH-i2-yTZ"/>
+                                    <constraint firstItem="JDO-JI-Kpk" firstAttribute="leading" secondItem="45b-P4-3ok" secondAttribute="leading" id="gMu-Pv-sJY"/>
+                                    <constraint firstAttribute="bottom" secondItem="NA3-22-gfh" secondAttribute="bottom" id="kBN-JR-ScT"/>
+                                    <constraint firstItem="JDO-JI-Kpk" firstAttribute="centerX" secondItem="NA3-22-gfh" secondAttribute="centerX" id="qCz-BT-zys"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8qz-Rf-KJo"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ee4-eV-d26">
+                                <rect key="frame" x="448" y="180" width="136" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="+ 1 day">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                </variation>
+                                <connections>
+                                    <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="E7N-tD-rvn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jPf-h7-nC9" firstAttribute="trailing" secondItem="LnA-7a-bBZ" secondAttribute="trailingMargin" id="DwU-GP-lNN"/>
-                            <constraint firstItem="jPf-h7-nC9" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="Ucd-it-U5X"/>
-                            <constraint firstItem="jPf-h7-nC9" firstAttribute="top" secondItem="as9-AO-1UI" secondAttribute="bottom" constant="8" symbolic="YES" id="fTH-N5-R0V"/>
+                            <constraint firstItem="Dkp-Hn-G8T" firstAttribute="leading" secondItem="ee4-eV-d26" secondAttribute="leading" id="1DB-bv-26k"/>
+                            <constraint firstItem="scx-ge-fjn" firstAttribute="width" secondItem="7Fb-Wk-1xc" secondAttribute="width" id="41T-yf-ztO"/>
+                            <constraint firstItem="A1d-HT-oi4" firstAttribute="width" secondItem="w1C-vN-1Dw" secondAttribute="width" id="4JO-MY-6s8"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="top" secondItem="as9-AO-1UI" secondAttribute="bottom" constant="90" id="4Ne-CM-jd8"/>
+                            <constraint firstItem="cKG-DB-HPa" firstAttribute="top" secondItem="7Fb-Wk-1xc" secondAttribute="bottom" constant="8" symbolic="YES" id="4dk-WB-TeX"/>
+                            <constraint firstItem="45b-P4-3ok" firstAttribute="bottom" secondItem="rbT-Pk-zD5" secondAttribute="top" id="5Nj-M9-pQW"/>
+                            <constraint firstItem="8lX-7h-MLa" firstAttribute="leading" secondItem="p3L-xU-c50" secondAttribute="leading" id="7eV-kR-CgK"/>
+                            <constraint firstItem="A1d-HT-oi4" firstAttribute="baseline" secondItem="w1C-vN-1Dw" secondAttribute="baseline" id="7tX-mp-r3E"/>
+                            <constraint firstItem="Dkp-Hn-G8T" firstAttribute="width" secondItem="8lX-7h-MLa" secondAttribute="width" id="9oO-jJ-FpU"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="leading" secondItem="7Fb-Wk-1xc" secondAttribute="leading" id="BnH-x7-Cun"/>
+                            <constraint firstItem="w1C-vN-1Dw" firstAttribute="leading" secondItem="p3L-xU-c50" secondAttribute="leading" id="CXx-GM-7pN"/>
+                            <constraint firstItem="8lX-7h-MLa" firstAttribute="leading" secondItem="ZoI-Nu-9VH" secondAttribute="trailing" constant="8" symbolic="YES" id="Duc-xy-wsE"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="top" secondItem="cKG-DB-HPa" secondAttribute="bottom" constant="8" symbolic="YES" id="Fmr-Wo-2YB"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="Gsu-LH-ke4"/>
+                            <constraint firstItem="p3L-xU-c50" firstAttribute="baseline" secondItem="ee4-eV-d26" secondAttribute="baseline" id="IO1-du-a5o"/>
+                            <constraint firstItem="scx-ge-fjn" firstAttribute="leading" secondItem="Uuo-x5-ZBa" secondAttribute="leading" id="IPe-ki-qIY"/>
+                            <constraint firstItem="ee4-eV-d26" firstAttribute="leading" secondItem="p3L-xU-c50" secondAttribute="trailing" constant="8" symbolic="YES" id="J10-gX-nqG"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="leading" secondItem="jPf-h7-nC9" secondAttribute="leading" id="K7r-Gr-gL2"/>
+                            <constraint firstItem="p3L-xU-c50" firstAttribute="leading" secondItem="scx-ge-fjn" secondAttribute="trailing" constant="8" symbolic="YES" id="Mrb-4w-2iX"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="top" secondItem="jPf-h7-nC9" secondAttribute="bottom" constant="8" symbolic="YES" id="NJh-on-bax"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="OSk-0q-Cqk"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="trailing" secondItem="jPf-h7-nC9" secondAttribute="trailing" id="PAr-1e-Ir9"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="width" secondItem="8lX-7h-MLa" secondAttribute="width" id="PE8-bF-tH2"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="trailing" secondItem="jPf-h7-nC9" secondAttribute="trailing" id="PGG-YA-Zrp"/>
+                            <constraint firstItem="Dkp-Hn-G8T" firstAttribute="leading" secondItem="8lX-7h-MLa" secondAttribute="trailing" constant="8" symbolic="YES" id="PfA-pC-EXE"/>
+                            <constraint firstItem="cKG-DB-HPa" firstAttribute="leading" secondItem="7Fb-Wk-1xc" secondAttribute="leading" id="Q4l-m9-CPe"/>
+                            <constraint firstItem="45b-P4-3ok" firstAttribute="centerX" secondItem="OIh-CK-Pbe" secondAttribute="centerX" id="RSH-5H-aR8"/>
+                            <constraint firstItem="8lX-7h-MLa" firstAttribute="baseline" secondItem="Dkp-Hn-G8T" secondAttribute="baseline" id="S9r-0V-XJC"/>
+                            <constraint firstItem="scx-ge-fjn" firstAttribute="leading" secondItem="7Fb-Wk-1xc" secondAttribute="trailing" constant="8" symbolic="YES" id="TXZ-AP-yQa"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="top" secondItem="jPf-h7-nC9" secondAttribute="bottom" constant="61" id="UEq-ej-ywo"/>
+                            <constraint firstItem="w1C-vN-1Dw" firstAttribute="leading" secondItem="Uuo-x5-ZBa" secondAttribute="trailing" constant="8" symbolic="YES" id="VoX-vk-fqW"/>
+                            <constraint firstItem="Dkp-Hn-G8T" firstAttribute="trailing" secondItem="ee4-eV-d26" secondAttribute="trailing" id="Wi2-vt-Edf"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="width" secondItem="Uuo-x5-ZBa" secondAttribute="width" id="Z65-kl-Fic"/>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="top" secondItem="as9-AO-1UI" secondAttribute="bottom" constant="8" symbolic="YES" id="ZSc-ku-0D5"/>
+                            <constraint firstItem="p3L-xU-c50" firstAttribute="width" secondItem="ee4-eV-d26" secondAttribute="width" id="ZfF-Hp-xbc"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="leading" secondItem="scx-ge-fjn" secondAttribute="leading" id="ajr-hn-uVl"/>
+                            <constraint firstItem="p3L-xU-c50" firstAttribute="width" secondItem="scx-ge-fjn" secondAttribute="width" id="bWY-Cy-nFL"/>
+                            <constraint firstItem="ee4-eV-d26" firstAttribute="trailing" secondItem="A1d-HT-oi4" secondAttribute="trailing" id="bdT-uP-S2u"/>
+                            <constraint firstItem="w1C-vN-1Dw" firstAttribute="width" secondItem="Uuo-x5-ZBa" secondAttribute="width" id="bv4-tM-Hjj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ee4-eV-d26" secondAttribute="trailing" id="dDY-cW-l7A"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="leading" secondItem="cKG-DB-HPa" secondAttribute="trailing" constant="8" symbolic="YES" id="daD-lA-mub"/>
+                            <constraint firstItem="scx-ge-fjn" firstAttribute="baseline" secondItem="7Fb-Wk-1xc" secondAttribute="baseline" id="e6T-ee-HPT"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="leading" secondItem="scx-ge-fjn" secondAttribute="leading" id="fDj-py-L7O"/>
+                            <constraint firstItem="A1d-HT-oi4" firstAttribute="leading" secondItem="w1C-vN-1Dw" secondAttribute="trailing" constant="8" symbolic="YES" id="fto-XD-S1a"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="baseline" secondItem="Uuo-x5-ZBa" secondAttribute="baseline" id="g0D-EA-Qvo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="A1d-HT-oi4" secondAttribute="trailing" id="gqN-BZ-5wK"/>
+                            <constraint firstItem="7Fb-Wk-1xc" firstAttribute="top" secondItem="OIh-CK-Pbe" secondAttribute="bottom" constant="7.5" id="hbP-ZZ-lHE"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="width" secondItem="cKG-DB-HPa" secondAttribute="width" id="ipl-3x-l1P"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="leading" secondItem="jPf-h7-nC9" secondAttribute="leading" id="jzQ-zt-ISh"/>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="trailing" secondItem="LnA-7a-bBZ" secondAttribute="trailingMargin" id="lso-mk-tKO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Dkp-Hn-G8T" secondAttribute="trailing" id="ly6-ei-D0j"/>
+                            <constraint firstItem="8lX-7h-MLa" firstAttribute="baseline" secondItem="ZoI-Nu-9VH" secondAttribute="baseline" id="m24-m7-dWb"/>
+                            <constraint firstItem="45b-P4-3ok" firstAttribute="top" secondItem="LnA-7a-bBZ" secondAttribute="top" constant="399" id="mUP-i0-Ewh"/>
+                            <constraint firstItem="cKG-DB-HPa" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="n5s-fY-WRd"/>
+                            <constraint firstItem="Dkp-Hn-G8T" firstAttribute="leading" secondItem="ee4-eV-d26" secondAttribute="leading" id="ndV-aa-R25"/>
+                            <constraint firstItem="Uuo-x5-ZBa" firstAttribute="leading" secondItem="bjy-eg-g6a" secondAttribute="trailing" constant="8" symbolic="YES" id="pEY-xp-Kpg"/>
+                            <constraint firstItem="ZoI-Nu-9VH" firstAttribute="baseline" secondItem="cKG-DB-HPa" secondAttribute="baseline" id="pxC-g0-QJN"/>
+                            <constraint firstItem="Uuo-x5-ZBa" firstAttribute="baseline" secondItem="w1C-vN-1Dw" secondAttribute="baseline" id="qiK-gb-gE7"/>
+                            <constraint firstItem="7Fb-Wk-1xc" firstAttribute="top" secondItem="bjy-eg-g6a" secondAttribute="bottom" constant="8" symbolic="YES" id="rAa-Cs-Iiw"/>
+                            <constraint firstItem="A1d-HT-oi4" firstAttribute="leading" secondItem="ee4-eV-d26" secondAttribute="leading" id="rex-kJ-cXB"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="leading" secondItem="bjy-eg-g6a" secondAttribute="leading" id="rnv-06-eF5"/>
+                            <constraint firstItem="jPf-h7-nC9" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="sdF-Um-eAQ"/>
+                            <constraint firstAttribute="trailing" secondItem="45b-P4-3ok" secondAttribute="trailing" id="sp8-49-B1r"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="top" secondItem="OIh-CK-Pbe" secondAttribute="bottom" constant="8" symbolic="YES" id="suR-vO-AT4"/>
+                            <constraint firstItem="bjy-eg-g6a" firstAttribute="leading" secondItem="7Fb-Wk-1xc" secondAttribute="leading" id="tQX-Cw-Qlo"/>
+                            <constraint firstItem="45b-P4-3ok" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leading" id="utw-QA-p0Y"/>
+                            <constraint firstItem="7Fb-Wk-1xc" firstAttribute="leading" secondItem="LnA-7a-bBZ" secondAttribute="leadingMargin" id="vk1-Ng-McQ"/>
+                            <constraint firstItem="A1d-HT-oi4" firstAttribute="trailing" secondItem="OIh-CK-Pbe" secondAttribute="trailing" id="voL-I1-WPm"/>
+                            <constraint firstItem="OIh-CK-Pbe" firstAttribute="trailing" secondItem="LnA-7a-bBZ" secondAttribute="trailingMargin" id="vza-jv-R0i"/>
+                            <constraint firstItem="p3L-xU-c50" firstAttribute="baseline" secondItem="scx-ge-fjn" secondAttribute="baseline" id="wXd-dN-liX"/>
+                            <constraint firstItem="8lX-7h-MLa" firstAttribute="leading" secondItem="p3L-xU-c50" secondAttribute="leading" id="wrs-D9-ciM"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="4Ne-CM-jd8"/>
+                                <exclude reference="BnH-x7-Cun"/>
+                                <exclude reference="K7r-Gr-gL2"/>
+                                <exclude reference="PAr-1e-Ir9"/>
+                                <exclude reference="PGG-YA-Zrp"/>
+                                <exclude reference="UEq-ej-ywo"/>
+                                <exclude reference="jzQ-zt-ISh"/>
+                                <exclude reference="rnv-06-eF5"/>
+                                <exclude reference="Fmr-Wo-2YB"/>
+                                <exclude reference="tQX-Cw-Qlo"/>
+                                <exclude reference="hbP-ZZ-lHE"/>
+                                <exclude reference="Q4l-m9-CPe"/>
+                                <exclude reference="IPe-ki-qIY"/>
+                                <exclude reference="ajr-hn-uVl"/>
+                                <exclude reference="fDj-py-L7O"/>
+                                <exclude reference="CXx-GM-7pN"/>
+                                <exclude reference="RSH-5H-aR8"/>
+                                <exclude reference="mUP-i0-Ewh"/>
+                                <exclude reference="7eV-kR-CgK"/>
+                                <exclude reference="wrs-D9-ciM"/>
+                                <exclude reference="rex-kJ-cXB"/>
+                                <exclude reference="voL-I1-WPm"/>
+                                <exclude reference="bdT-uP-S2u"/>
+                                <exclude reference="1DB-bv-26k"/>
+                                <exclude reference="Wi2-vt-Edf"/>
+                                <exclude reference="ndV-aa-R25"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Ttq-k3-Kiy">
@@ -158,7 +506,22 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="absoluteTimeButton1" destination="bjy-eg-g6a" id="hXz-3v-uZ0"/>
+                        <outlet property="absoluteTimeButton2" destination="Uuo-x5-ZBa" id="pVO-Ee-drP"/>
+                        <outlet property="absoluteTimeButton3" destination="w1C-vN-1Dw" id="S3q-ck-DxZ"/>
+                        <outlet property="absoluteTimeButton4" destination="A1d-HT-oi4" id="zTW-V0-Lx6"/>
+                        <outlet property="addButton" destination="JDO-JI-Kpk" id="Szp-VC-ILy"/>
+                        <outlet property="datePicker" destination="NA3-22-gfh" id="9qB-iG-p4H"/>
                         <outlet property="inputField" destination="jPf-h7-nC9" id="4Ui-Z2-vSq"/>
+                        <outlet property="relativeTimeButton1" destination="7Fb-Wk-1xc" id="ODd-pu-EQO"/>
+                        <outlet property="relativeTimeButton2" destination="scx-ge-fjn" id="wSb-PF-4Rz"/>
+                        <outlet property="relativeTimeButton3" destination="p3L-xU-c50" id="xoV-ES-Oii"/>
+                        <outlet property="relativeTimeButton4" destination="ee4-eV-d26" id="Phq-h2-uA3"/>
+                        <outlet property="relativeTimeButton5" destination="cKG-DB-HPa" id="zrB-Ny-qAc"/>
+                        <outlet property="relativeTimeButton6" destination="ZoI-Nu-9VH" id="73e-U6-yoS"/>
+                        <outlet property="relativeTimeButton7" destination="8lX-7h-MLa" id="XNC-GC-5kd"/>
+                        <outlet property="relativeTimeButton8" destination="Dkp-Hn-G8T" id="Zf9-Be-Ibk"/>
+                        <outlet property="timeLabel" destination="OIh-CK-Pbe" id="Owh-89-vUB"/>
                         <segue destination="86k-8H-aLD" kind="unwind" identifier="add" unwindAction="unwindToList:" id="13s-a2-89s"/>
                     </connections>
                 </viewController>
