@@ -11,13 +11,11 @@ import UIKit
 class AddReminderViewController: UIViewController, UITextFieldDelegate {
     
     struct Time {
-        static let Minute:Double = 60
-        static let Hour:Double = 60 * Time.Minute
-        static let Day:Double = 24 * Time.Hour
-        static let Week:Double = 7 * Time.Day
+        static let Minute = Functionalities.Time.Minute
+        static let Hour = Functionalities.Time.Hour
+        static let Day = Functionalities.Time.Day
+        static let Week = Functionalities.Time.Week
     }
-    let WeekDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     @IBOutlet weak var inputField: UITextField!
     
@@ -31,6 +29,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var relativeTimeButton6: UIButton!
     @IBOutlet weak var relativeTimeButton7: UIButton!
     @IBOutlet weak var relativeTimeButton8: UIButton!
+    
     @IBOutlet weak var absoluteTimeButton1: UIButton!
     @IBOutlet weak var absoluteTimeButton2: UIButton!
     @IBOutlet weak var absoluteTimeButton3: UIButton!
@@ -43,52 +42,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     
     private var timeLabelDate = NSDate() {
         didSet {
-            var dateString: String? = ""
-            var timeString: String? = ""
-            if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
-                var timeFromNow = timeLabelDate.timeIntervalSinceDate(NSDate())
-                
-                if timeFromNow > 0 && timeFromNow < 2 * Time.Hour {
-                    if dateString != nil {
-                        dateString = "In"
-                    }
-                    if Int(timeFromNow/Time.Hour) > 0 {
-                        dateString = dateString! + " \(Int(timeFromNow/Time.Hour)) hours"
-                        timeFromNow = timeFromNow%Time.Hour
-                    }
-                    if timeFromNow > 0 {
-                        dateString = dateString! + " \(Int(timeFromNow/Time.Minute)) minutes"
-                    }
-                } else {
-                    let dateToday = gregorian.component(.CalendarUnitDay, fromDate: NSDate())
-                    let dateSet = gregorian.component(.CalendarUnitDay, fromDate: timeLabelDate)
-                    
-                    println(dateToday , " ",  dateSet);
-                    
-                    if dateSet == dateToday {
-                        dateString = "Today"
-                    } else if dateSet - 1 == dateToday {
-                        dateString = "Tomorrow"
-                    } else if timeFromNow < 1 * Time.Week {
-                        let weekday = gregorian.component(.CalendarUnitWeekday, fromDate: timeLabelDate)
-                        dateString = "On " + WeekDay[weekday]
-                    } else {
-                        let month = gregorian.component(.CalendarUnitMonth, fromDate: timeLabelDate)
-                        let date = gregorian.component(.CalendarUnitDay, fromDate: timeLabelDate)
-                        dateString = "On " + Month[month] + " \(date)"
-                    }
-                    let hour = gregorian.component(.CalendarUnitHour, fromDate: timeLabelDate)
-                    let minute = gregorian.component(.CalendarUnitMinute, fromDate: timeLabelDate)
-                    var minuteString = ""
-                    if minute < 10 {
-                        minuteString = "0" + "\(minute)"
-                    } else {
-                        minuteString = "\(minute)"
-                    }
-                    dateString = (dateString ?? "") + " at \(hour):" + minuteString
-                }
-            }
-            timeLabel.text = dateString;
+            timeLabel.text = Functionalities.dateFormatter(timeLabelDate)
         }
     }
     
@@ -233,7 +187,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
             if let id = segue.identifier {
                 switch id {
                 case "add":
-                    lvc.newReminder = reminder
+                    lvc.insertNewReminder(reminder)
                 
                 case "cancel":
                     fallthrough

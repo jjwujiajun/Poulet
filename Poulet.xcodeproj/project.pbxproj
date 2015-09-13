@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D75055771B32AB9200EB1DA9 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75055761B32AB9200EB1DA9 /* Reminder.swift */; };
+		D76C92AD1BA3C993005669E4 /* Funtionalities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C92AC1BA3C993005669E4 /* Funtionalities.swift */; };
 		D787D4B71B2E83DA005D5603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4B61B2E83DA005D5603 /* AppDelegate.swift */; };
 		D787D4B91B2E83DA005D5603 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4B81B2E83DA005D5603 /* ListViewController.swift */; };
 		D787D4BB1B2E83DA005D5603 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */; };
@@ -14,6 +16,7 @@
 		D787D4C01B2E83DA005D5603 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D787D4BF1B2E83DA005D5603 /* Images.xcassets */; };
 		D787D4C31B2E83DA005D5603 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */; };
 		D787D4CF1B2E83DA005D5603 /* PouletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787D4CE1B2E83DA005D5603 /* PouletTests.swift */; };
+		D78FC1171B2EAC0C00C42AA5 /* AddReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78FC1161B2EAC0C00C42AA5 /* AddReminderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D75055761B32AB9200EB1DA9 /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		D76C92AC1BA3C993005669E4 /* Funtionalities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Funtionalities.swift; path = ../Funtionalities.swift; sourceTree = "<group>"; };
 		D787D4B11B2E83DA005D5603 /* Poulet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poulet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D787D4B51B2E83DA005D5603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D787D4B61B2E83DA005D5603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +43,7 @@
 		D787D4C81B2E83DA005D5603 /* PouletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PouletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D787D4CD1B2E83DA005D5603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D787D4CE1B2E83DA005D5603 /* PouletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PouletTests.swift; sourceTree = "<group>"; };
+		D78FC1161B2EAC0C00C42AA5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,12 +85,12 @@
 		D787D4B31B2E83DA005D5603 /* Poulet */ = {
 			isa = PBXGroup;
 			children = (
-				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
+				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
 				D787D4B81B2E83DA005D5603 /* ListViewController.swift */,
 				D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */,
+				D75055761B32AB9200EB1DA9 /* Reminder.swift */,
 				D787D4BC1B2E83DA005D5603 /* Main.storyboard */,
-				D787D4BF1B2E83DA005D5603 /* Images.xcassets */,
-				D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */,
+				D78FC1161B2EAC0C00C42AA5 /* AddReminderViewController.swift */,
 				D787D4B41B2E83DA005D5603 /* Supporting Files */,
 			);
 			path = Poulet;
@@ -93,6 +99,9 @@
 		D787D4B41B2E83DA005D5603 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D787D4BF1B2E83DA005D5603 /* Images.xcassets */,
+				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
+				D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */,
 				D787D4B51B2E83DA005D5603 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -215,9 +224,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D78FC1171B2EAC0C00C42AA5 /* AddReminderViewController.swift in Sources */,
+				D76C92AD1BA3C993005669E4 /* Funtionalities.swift in Sources */,
 				D787D4BB1B2E83DA005D5603 /* ReminderViewController.swift in Sources */,
 				D787D4B91B2E83DA005D5603 /* ListViewController.swift in Sources */,
 				D787D4B71B2E83DA005D5603 /* AppDelegate.swift in Sources */,
+				D75055771B32AB9200EB1DA9 /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

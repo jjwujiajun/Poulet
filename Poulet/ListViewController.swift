@@ -13,12 +13,6 @@ class ListViewController: UITableViewController {
     var detailViewController: ReminderViewController? = nil
     
     private var reminders = [Reminder]()
-    
-    var newReminder = Reminder() {
-        didSet {
-            insertNewReminder(newReminder)
-        }
-    }
 
     @IBAction func addReminder(sender: UIBarButtonItem) {
     }
@@ -34,7 +28,6 @@ class ListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
         
         // Self's detailVC is ReminderVC
@@ -54,6 +47,7 @@ class ListViewController: UITableViewController {
 
 
     func insertNewReminder(reminder: Reminder) {
+        
         reminders.insert(reminder, atIndex: 0)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -65,7 +59,7 @@ class ListViewController: UITableViewController {
         if segue.identifier == "showReminder" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! ReminderViewController
-                controller.detailItem = reminders[indexPath.row]
+                controller.reminder = reminders[indexPath.row]
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

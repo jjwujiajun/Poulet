@@ -12,5 +12,7 @@ class Reminder {
     
     var name: String? = ""
     var dueDate = NSDate()
+    var isRecurring = false
+    var nextRecurringDate = NSDate()
     
 }
