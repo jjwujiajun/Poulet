@@ -14,5 +14,23 @@ class Reminder {
     var dueDate = NSDate()
     var isRecurring = false
     var nextRecurringDate = NSDate()
+    var recurrenceCycleQty = 0
+    var recurrenceCycleUnit = 0
+    
+    func updateRecurrenceForPickerIndexes(quantityIndex:Int, unitIndex:Int) {
+        let quantity = Double(quantityIndex)
+        let unit = Functionalities.Time.unitsArray[unitIndex]
+        
+        recurrenceCycleQty = quantityIndex
+        recurrenceCycleUnit = unitIndex
+        
+        let timeToNextDueDate = quantity * unit
+        if timeToNextDueDate > 0 {
+            nextRecurringDate = NSDate(timeInterval: timeToNextDueDate, sinceDate: dueDate)
+            isRecurring = true
+        } else {
+            isRecurring = false
+        }
+    }
     
 }

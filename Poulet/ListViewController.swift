@@ -45,7 +45,6 @@ class ListViewController: UITableViewController {
         //self.navigationItem.rightBarButtonItem = addButton
     }
 
-
     func insertNewReminder(reminder: Reminder) {
         
         reminders.insert(reminder, atIndex: 0)
@@ -60,6 +59,9 @@ class ListViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! ReminderViewController
                 controller.reminder = reminders[indexPath.row]
+                controller.listViewController = self
+                controller.reminderIndexPathInListView = indexPath
+                
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

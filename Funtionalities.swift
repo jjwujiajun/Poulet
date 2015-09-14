@@ -15,9 +15,11 @@ class Functionalities {
         static let Hour:Double = 60 * Minute
         static let Day:Double = 24 * Hour
         static let Week:Double = 7 * Day
+        static let unitsArray = [0, Minute, Hour, Day, Week]
     }
     
-    static let Period = ["minutes", "hours", "days", "weeks", "month"]
+    static let Period_Singular = ["", "minute", "hour", "day", "week", "month"]
+    static let Period_Plural = ["", "minutes", "hours", "days", "weeks", "months"]
     
     static let WeekDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     static let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
