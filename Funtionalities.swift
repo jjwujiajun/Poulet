@@ -24,6 +24,12 @@ class Functionalities {
     static let WeekDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     static let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
+    struct Notification {
+        static let ReminderDone = "reminderDone"
+        
+        static let CellRow = "cellRow"
+    }
+    
     static func dateFormatter(timeLabelDate: NSDate) -> String {
         var dateString: String? = ""
         var timeString: String? = ""

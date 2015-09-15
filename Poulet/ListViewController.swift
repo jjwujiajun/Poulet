@@ -36,6 +36,16 @@ class ListViewController: UITableViewController {
             self.detailViewController = controllers[controllers.count-1].topViewController as? ReminderViewController
         }
         
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let queue = NSOperationQueue.mainQueue()
+        
+        notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
+            if let row = notification?.userInfo?[Functionalities.Notification.CellRow] as? Int {
+                let indexPath = NSIndexPath(forRow: row, inSection: 0)
+                self.deleteReminderAtRow(row)
+            }
+        }
+        
         // Other
         // Edit button
         //self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -50,6 +60,17 @@ class ListViewController: UITableViewController {
         reminders.insert(reminder, atIndex: 0)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+    }
+    
+    func deleteReminderAtRow(row: Int) {
+        let rmd = reminders[row]
+        if rmd.isRecurring {
+            rmd.dueDate = rmd.nextRecurringDate
+            rmd.updateNextRecurringDueDate()
+        } else {
+            reminders.removeAtIndex(row)
+            tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
     }
 
     // MARK: - Segues
@@ -85,10 +106,11 @@ class ListViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ReminderCell", forIndexPath: indexPath) as! UITableViewCell
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("ReminderCell", forIndexPath: indexPath) as! ReminderTableViewCell
+        cell.reminder = reminders[indexPath.row]
+        cell.cellRow = indexPath.row
 
-        let reminder = reminders[indexPath.row]
-        cell.textLabel!.text = reminder.name
         return cell
     }
 
