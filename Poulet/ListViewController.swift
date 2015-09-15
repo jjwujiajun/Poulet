@@ -58,21 +58,25 @@ class ListViewController: UITableViewController {
     func insertionRowForRmd(thisRmd: Reminder) -> Int {
         var i = 0
         for otherRmd in reminders {
-            if otherRmd.dueDate.timeIntervalSince1970 > thisRmd.dueDate.timeIntervalSince1970 {
-                break
-            } else {
+            if otherRmd.dueDate.timeIntervalSince1970 < thisRmd.dueDate.timeIntervalSince1970 {
                 i++
+            } else {
+                break
             }
         }
         return i;
     }
-
+    
+    func insertNewReminder(reminder: Reminder, withStyle style: UITableViewRowAnimation, atIndex index:Int) {
+        reminders.insert(reminder, atIndex: index)
+        
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: style)
+    }
+    
     func insertNewReminder(reminder: Reminder, withStyle style: UITableViewRowAnimation) {
         let insertIndex = insertionRowForRmd(reminder)
-        reminders.insert(reminder, atIndex: insertIndex)
-        
-        let indexPath = NSIndexPath(forRow: insertIndex, inSection: 0)
-        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: style)
+        insertNewReminder(reminder, withStyle: style, atIndex: insertIndex)
     }
     
     func deleteReminderAtRow(row: Int, withStyle style: UITableViewRowAnimation) {
@@ -83,12 +87,18 @@ class ListViewController: UITableViewController {
     func doneReminderAtRow(row: Int) {
         let rmd = reminders[row]
         if rmd.isRecurring {
+            
             deleteReminderAtRow(row, withStyle: .Right)
             
             rmd.dueDate = rmd.nextRecurringDate
             rmd.updateNextRecurringDueDate()
             
-            insertNewReminder(rmd, withStyle: .Right)
+            let insertIndex = insertionRowForRmd(rmd)
+            if insertIndex == row {
+                insertNewReminder(rmd, withStyle: .Fade, atIndex: insertIndex)
+            } else {
+                insertNewReminder(rmd, withStyle: .Right, atIndex: insertIndex)
+            }
         } else {
             deleteReminderAtRow(row, withStyle: .Fade)
         }
