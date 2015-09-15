@@ -24,7 +24,13 @@ class ReminderTableViewCell: UITableViewCell {
         }
     }
     
-    var cellRow = 0
+    var tableView = UITableView()
+    var cellRow: Int {
+        if let indexPath = tableView.indexPathForCell(self) {
+            return indexPath.row
+        }
+        return 0
+    }
     
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var dueDate: UILabel!

@@ -187,7 +187,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
             if let id = segue.identifier {
                 switch id {
                 case "add":
-                    lvc.insertNewReminder(reminder)
+                    lvc.insertNewReminder(reminder, withStyle: .Automatic)
                 
                 case "cancel":
                     fallthrough

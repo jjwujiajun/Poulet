@@ -42,7 +42,7 @@ class ListViewController: UITableViewController {
         notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
             if let row = notification?.userInfo?[Functionalities.Notification.CellRow] as? Int {
                 let indexPath = NSIndexPath(forRow: row, inSection: 0)
-                self.deleteReminderAtRow(row)
+                self.doneReminderAtRow(row)
             }
         }
         
@@ -54,22 +54,43 @@ class ListViewController: UITableViewController {
         //let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         //self.navigationItem.rightBarButtonItem = addButton
     }
+    
+    func insertionRowForRmd(thisRmd: Reminder) -> Int {
+        var i = 0
+        for otherRmd in reminders {
+            if otherRmd.dueDate.timeIntervalSince1970 > thisRmd.dueDate.timeIntervalSince1970 {
+                break
+            } else {
+                i++
+            }
+        }
+        return i;
+    }
 
-    func insertNewReminder(reminder: Reminder) {
+    func insertNewReminder(reminder: Reminder, withStyle style: UITableViewRowAnimation) {
+        let insertIndex = insertionRowForRmd(reminder)
+        reminders.insert(reminder, atIndex: insertIndex)
         
-        reminders.insert(reminder, atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        let indexPath = NSIndexPath(forRow: insertIndex, inSection: 0)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: style)
     }
     
-    func deleteReminderAtRow(row: Int) {
+    func deleteReminderAtRow(row: Int, withStyle style: UITableViewRowAnimation) {
+        reminders.removeAtIndex(row)
+        tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 0)], withRowAnimation: style)
+    }
+    
+    func doneReminderAtRow(row: Int) {
         let rmd = reminders[row]
         if rmd.isRecurring {
+            deleteReminderAtRow(row, withStyle: .Right)
+            
             rmd.dueDate = rmd.nextRecurringDate
             rmd.updateNextRecurringDueDate()
+            
+            insertNewReminder(rmd, withStyle: .Right)
         } else {
-            reminders.removeAtIndex(row)
-            tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            deleteReminderAtRow(row, withStyle: .Fade)
         }
     }
 
@@ -109,7 +130,7 @@ class ListViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("ReminderCell", forIndexPath: indexPath) as! ReminderTableViewCell
         cell.reminder = reminders[indexPath.row]
-        cell.cellRow = indexPath.row
+        cell.tableView = self.tableView//indexPath.row
 
         return cell
     }
