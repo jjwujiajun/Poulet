@@ -38,34 +38,51 @@ class Functionalities {
     static func dateFormatter(timeLabelDate: NSDate) -> String {
         var dateString: String? = ""
         if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
-            var timeFromNow = timeLabelDate.timeIntervalSinceDate(NSDate())
+            var timeFromNow = timeLabelDate.timeIntervalSinceNow
             
-            if timeFromNow > 0 && timeFromNow < 2 * Time.Hour {
-                if dateString != nil {
-                    dateString = "In"
+            if timeFromNow < 0 {
+                dateString = "Due "
+            }
+            
+            if abs(timeFromNow) < 2 * Time.Hour {
+                if timeFromNow > 0 {
+                    dateString = "In "
                 }
-                if Int(timeFromNow/Time.Hour) > 0 {
-                    dateString = dateString! + " \(Int(timeFromNow/Time.Hour)) hours"
+                if Int(timeFromNow/Time.Hour) != 0 {
+                    dateString = dateString! + "\(Int(abs(timeFromNow)/Time.Hour)) hours "
                     timeFromNow = timeFromNow%Time.Hour
                 }
-                if timeFromNow > 0 {
-                    dateString = dateString! + " \(Int(timeFromNow/Time.Minute)) minutes"
+                if timeFromNow != 0 {
+                    dateString = dateString! + "\(Int(abs(timeFromNow)/Time.Minute)) minutes "
+                }
+                if timeFromNow < 0 {
+                    dateString? += "ago"
                 }
             } else {
                 let dateToday = gregorian.component(.Day, fromDate: NSDate())
                 let dateSet = gregorian.component(.Day, fromDate: timeLabelDate)
                 
-                if dateSet == dateToday {
-                    dateString = "Today"
-                } else if dateSet - 1 == dateToday {
-                    dateString = "Tomorrow"
-                } else if timeFromNow < 1 * Time.Week {
-                    let weekday = gregorian.component(.Weekday, fromDate: timeLabelDate)
-                    dateString = "On " + WeekDay[weekday - 1]
+                if timeFromNow > 0 {
+                    if dateSet == dateToday {
+                        dateString = "Today"
+                    } else if dateSet - 1 == dateToday {
+                        dateString = "Tomorrow"
+                    } else if timeFromNow < 1 * Time.Week {
+                        let weekday = gregorian.component(.Weekday, fromDate: timeLabelDate)
+                        dateString = "On " + WeekDay[weekday - 1]
+                    } else {
+                        let month = gregorian.component(.Month, fromDate: timeLabelDate)
+                        let date = gregorian.component(.Day, fromDate: timeLabelDate)
+                        dateString = "On " + Month[month - 1] + " \(date)"
+                    }
                 } else {
-                    let month = gregorian.component(.Month, fromDate: timeLabelDate)
-                    let date = gregorian.component(.Day, fromDate: timeLabelDate)
-                    dateString = "On " + Month[month - 1] + " \(date)"
+                    if dateSet == dateToday - 1 {
+                        dateString? += "yesterday"
+                    } else {
+                        let month = gregorian.component(.Month, fromDate: timeLabelDate)
+                        let date = gregorian.component(.Day, fromDate: timeLabelDate)
+                        dateString? += Month[month - 1] + " \(date)"
+                    }
                 }
                 let hour = gregorian.component(.Hour, fromDate: timeLabelDate)
                 let minute = gregorian.component(.Minute, fromDate: timeLabelDate)
