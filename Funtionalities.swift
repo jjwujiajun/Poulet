@@ -27,7 +27,12 @@ class Functionalities {
     struct Notification {
         static let ReminderDone = "reminderDone"
         
-        static let CellRow = "cellRow"
+        static let CellIndexPath = "cellIndexPath"
+    }
+    
+    struct Entity {
+        static let Reminder = "Reminder"
+        static let Reminder_sortKey = "dueDue"
     }
     
     static func dateFormatter(timeLabelDate: NSDate) -> String {

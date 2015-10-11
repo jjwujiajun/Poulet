@@ -184,7 +184,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
                 switch id {
                 case "add":
                     if (inputField.text ?? "").characters.count > 0 {
-                        if let reminder = NSEntityDescription.insertNewObjectForEntityForName("Reminder", inManagedObjectContext: managedObjectContext) as? Reminder{
+                        if let reminder = NSEntityDescription.insertNewObjectForEntityForName(Functionalities.Entity.Reminder, inManagedObjectContext: managedObjectContext) as? Reminder{
                                 
                             reminder.name = inputField.text
                             reminder.dueDate = datePicker.date
@@ -192,7 +192,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
                             // TODO 2: Should use a more notification based reach out?
                             // Or no need, because the LVC explicitly lent AddRmdVC the power, when making itself the delegate
                             // Therefore should just private/public appropriate functions in LVC?
-                            lvc.insertNewReminder(reminder, withStyle: .Automatic)
+                            lvc.insertNewReminder(reminder)
                         }
                     }
                 

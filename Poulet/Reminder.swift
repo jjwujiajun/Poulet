@@ -19,6 +19,8 @@ class Reminder: NSManagedObject {
     @NSManaged var recurrenceCycleQty: NSNumber?
     @NSManaged var recurrenceCycleUnit: NSNumber?
     
+    var oldIndexPath: NSIndexPath?
+    
     func updateRecurrenceForPickerIndexes(quantityIndex:Int, unitIndex:Int) {
         recurrenceCycleQty = quantityIndex
         recurrenceCycleUnit = unitIndex
