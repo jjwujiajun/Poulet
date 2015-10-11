@@ -189,9 +189,6 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
                             reminder.name = inputField.text
                             reminder.dueDate = datePicker.date
                             
-                            // TODO 2: Should use a more notification based reach out?
-                            // Or no need, because the LVC explicitly lent AddRmdVC the power, when making itself the delegate
-                            // Therefore should just private/public appropriate functions in LVC?
                             lvc.insertNewReminder(reminder)
                         }
                     }

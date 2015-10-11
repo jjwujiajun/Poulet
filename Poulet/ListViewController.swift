@@ -11,7 +11,7 @@ import CoreData
 
 class ListViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    var detailViewController: ReminderViewController? = nil
+    private var detailViewController: ReminderViewController? = nil
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     private var reminders = [Reminder]()
@@ -68,7 +68,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func deleteReminderAtIndexPath(path: NSIndexPath) {
+    private func deleteReminderAtIndexPath(path: NSIndexPath) {
         var style = UITableViewRowAnimation.Fade
         if reminders[path.row].oldIndexPath != nil {
             style = UITableViewRowAnimation.Right
@@ -83,7 +83,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         tableView.deleteRowsAtIndexPaths([path], withRowAnimation: style)
     }
     
-    func doneReminderAtRow(indexPath: NSIndexPath) {
+    private func doneReminderAtRow(indexPath: NSIndexPath) {
         let rmd = reminders[indexPath.row]
         
         rmd.isDone? = NSNumber(bool: true)
@@ -175,7 +175,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     // MARK: – Core Data
-    func fetchSortedReminders() {
+    private func fetchSortedReminders() {
         let fetchRequest = NSFetchRequest(entityName: Functionalities.Entity.Reminder)
         let sortDescriptor = NSSortDescriptor(key: Functionalities.Entity.Reminder_sortKey, ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -188,7 +188,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func saveReminders() {
+    private func saveReminders() {
         do {
             try managedObjectContext.save()
         } catch {
