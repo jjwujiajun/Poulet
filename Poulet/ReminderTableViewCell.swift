@@ -19,7 +19,7 @@ class ReminderTableViewCell: UITableViewCell {
         didSet {
             if let rmd = reminder {
                 name?.text = rmd.name
-                dueDate?.text = rmd.dueDate.description
+                dueDate?.text = rmd.dueDate?.description
             }
         }
     }

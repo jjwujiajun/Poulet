@@ -32,7 +32,6 @@ class Functionalities {
     
     static func dateFormatter(timeLabelDate: NSDate) -> String {
         var dateString: String? = ""
-        var timeString: String? = ""
         if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
             var timeFromNow = timeLabelDate.timeIntervalSinceDate(NSDate())
             
@@ -48,23 +47,23 @@ class Functionalities {
                     dateString = dateString! + " \(Int(timeFromNow/Time.Minute)) minutes"
                 }
             } else {
-                let dateToday = gregorian.component(.CalendarUnitDay, fromDate: NSDate())
-                let dateSet = gregorian.component(.CalendarUnitDay, fromDate: timeLabelDate)
+                let dateToday = gregorian.component(.Day, fromDate: NSDate())
+                let dateSet = gregorian.component(.Day, fromDate: timeLabelDate)
                 
                 if dateSet == dateToday {
                     dateString = "Today"
                 } else if dateSet - 1 == dateToday {
                     dateString = "Tomorrow"
                 } else if timeFromNow < 1 * Time.Week {
-                    let weekday = gregorian.component(.CalendarUnitWeekday, fromDate: timeLabelDate)
+                    let weekday = gregorian.component(.Weekday, fromDate: timeLabelDate)
                     dateString = "On " + WeekDay[weekday - 1]
                 } else {
-                    let month = gregorian.component(.CalendarUnitMonth, fromDate: timeLabelDate)
-                    let date = gregorian.component(.CalendarUnitDay, fromDate: timeLabelDate)
+                    let month = gregorian.component(.Month, fromDate: timeLabelDate)
+                    let date = gregorian.component(.Day, fromDate: timeLabelDate)
                     dateString = "On " + Month[month - 1] + " \(date)"
                 }
-                let hour = gregorian.component(.CalendarUnitHour, fromDate: timeLabelDate)
-                let minute = gregorian.component(.CalendarUnitMinute, fromDate: timeLabelDate)
+                let hour = gregorian.component(.Hour, fromDate: timeLabelDate)
+                let minute = gregorian.component(.Minute, fromDate: timeLabelDate)
                 var minuteString = ""
                 if minute < 10 {
                     minuteString = "0" + "\(minute)"

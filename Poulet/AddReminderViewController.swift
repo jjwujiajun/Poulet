@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class AddReminderViewController: UIViewController, UITextFieldDelegate {
     
@@ -38,7 +39,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
-    private var reminder = Reminder()
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     private var timeLabelDate = NSDate() {
         didSet {
@@ -93,8 +94,8 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
                 break
             }
             if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
-                let currentHour = Double(gregorian.component(.CalendarUnitHour, fromDate: NSDate()))
-                let currentMinute = Double(gregorian.component(.CalendarUnitMinute, fromDate: NSDate()))
+                let currentHour = Double(gregorian.component(.Hour, fromDate: NSDate()))
+                let currentMinute = Double(gregorian.component(.Minute, fromDate: NSDate()))
                 var forwardedTime = 0.0
                 if currentHour >= hourSet {
                     forwardedTime = (24 - currentHour + hourSet) * Time.Hour - currentMinute * Time.Minute
@@ -138,11 +139,6 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addButtonTouchUp(sender: UIButton) {
-        if count(inputField.text) > 0 {
-            reminder.name = inputField.text
-            reminder.dueDate = datePicker.date
-        }
-        
         performSegueWithIdentifier("add", sender: self)
     }
     
@@ -165,7 +161,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Text Field
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if count(inputField.text ?? "") > 0 {
+        if (inputField.text ?? "").characters.count > 0 {
             textField.resignFirstResponder()
             timeSectionIsEnabled = true
             addButtonIsEnabled = true
@@ -175,7 +171,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidClear() {
-        if count(inputField.text ?? "") == 0 {
+        if (inputField.text ?? "").characters.count == 0 {
             timeSectionIsEnabled = false
             addButtonIsEnabled = false
         }
@@ -187,7 +183,18 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
             if let id = segue.identifier {
                 switch id {
                 case "add":
-                    lvc.insertNewReminder(reminder, withStyle: .Automatic)
+                    if (inputField.text ?? "").characters.count > 0 {
+                        if let reminder = NSEntityDescription.insertNewObjectForEntityForName("Reminder", inManagedObjectContext: managedObjectContext) as? Reminder{
+                                
+                            reminder.name = inputField.text
+                            reminder.dueDate = datePicker.date
+                            
+                            // TODO 2: Should use a more notification based reach out?
+                            // Or no need, because the LVC explicitly lent AddRmdVC the power, when making itself the delegate
+                            // Therefore should just private/public appropriate functions in LVC?
+                            lvc.insertNewReminder(reminder, withStyle: .Automatic)
+                        }
+                    }
                 
                 case "cancel":
                     fallthrough

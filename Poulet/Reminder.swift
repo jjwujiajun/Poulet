@@ -7,16 +7,17 @@
 //
 
 import Foundation
+import CoreData
 
-class Reminder {
+class Reminder: NSManagedObject {
     
-    var name: String? = ""
-    var dueDate = NSDate()
-    var isDone = false
-    var isRecurring = false
-    var nextRecurringDate = NSDate()
-    var recurrenceCycleQty = 0
-    var recurrenceCycleUnit = 0
+    @NSManaged var name: String?
+    @NSManaged var dueDate: NSDate?
+    @NSManaged var isDone: NSNumber?
+    @NSManaged var isRecurring: NSNumber?
+    @NSManaged var nextRecurringDate: NSDate?
+    @NSManaged var recurrenceCycleQty: NSNumber?
+    @NSManaged var recurrenceCycleUnit: NSNumber?
     
     func updateRecurrenceForPickerIndexes(quantityIndex:Int, unitIndex:Int) {
         recurrenceCycleQty = quantityIndex
@@ -26,12 +27,12 @@ class Reminder {
     }
     
     func updateNextRecurringDueDate() {
-        let quantity = Double(recurrenceCycleQty)
-        let unit = Functionalities.Time.unitsArray[recurrenceCycleUnit]
+        let quantity = Double(recurrenceCycleQty ?? 0)
+        let unit = Functionalities.Time.unitsArray[Int(recurrenceCycleUnit ?? 0)]
         
         let timeToNextDueDate = quantity * unit
         if timeToNextDueDate > 0 {
-            nextRecurringDate = NSDate(timeInterval: timeToNextDueDate, sinceDate: dueDate)
+            nextRecurringDate = NSDate(timeInterval: timeToNextDueDate, sinceDate: dueDate ?? NSDate() )
             isRecurring = true
         } else {
             isRecurring = false

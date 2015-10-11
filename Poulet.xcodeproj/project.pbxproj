@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D732460B1BC77D4400E0D0B3 /* reminders.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		D75055771B32AB9200EB1DA9 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75055761B32AB9200EB1DA9 /* Reminder.swift */; };
 		D76C92AD1BA3C993005669E4 /* Funtionalities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C92AC1BA3C993005669E4 /* Funtionalities.swift */; };
 		D76C92B11BA685D0005669E4 /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D732460A1BC77D4400E0D0B3 /* reminders.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reminders.xcdatamodel; sourceTree = "<group>"; };
 		D75055761B32AB9200EB1DA9 /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		D76C92AC1BA3C993005669E4 /* Funtionalities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Funtionalities.swift; path = ../Funtionalities.swift; sourceTree = "<group>"; };
 		D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			children = (
 				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
 				D787D4B81B2E83DA005D5603 /* ListViewController.swift */,
+				D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */,
 				D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */,
 				D75055761B32AB9200EB1DA9 /* Reminder.swift */,
 				D787D4BC1B2E83DA005D5603 /* Main.storyboard */,
@@ -171,11 +174,13 @@
 		D787D4A91B2E83DA005D5603 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Jiajun Wu";
 				TargetAttributes = {
 					D787D4B01B2E83DA005D5603 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 6939L27MR2;
 					};
 					D787D4C71B2E83DA005D5603 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -234,6 +239,7 @@
 				D787D4B71B2E83DA005D5603 /* AppDelegate.swift in Sources */,
 				D75055771B32AB9200EB1DA9 /* Reminder.swift in Sources */,
 				D76C92B11BA685D0005669E4 /* ReminderTableViewCell.swift in Sources */,
+				D732460B1BC77D4400E0D0B3 /* reminders.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +302,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -362,9 +369,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Poulet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AnimalFarm.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -372,9 +383,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Poulet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AnimalFarm.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -392,6 +407,7 @@
 				);
 				INFOPLIST_FILE = PouletTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AnimalFarm.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Poulet.app/Poulet";
 			};
@@ -407,6 +423,7 @@
 				);
 				INFOPLIST_FILE = PouletTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AnimalFarm.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Poulet.app/Poulet";
 			};
@@ -443,6 +460,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D732460A1BC77D4400E0D0B3 /* reminders.xcdatamodel */,
+			);
+			currentVersion = D732460A1BC77D4400E0D0B3 /* reminders.xcdatamodel */;
+			path = reminders.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D787D4A91B2E83DA005D5603 /* Project object */;
 }

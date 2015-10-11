@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
-class ListViewController: UITableViewController {
+class ListViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var detailViewController: ReminderViewController? = nil
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     private var reminders = [Reminder]()
 
@@ -28,22 +30,29 @@ class ListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+
+//        let reminder = NSEntityDescription.insertNewObjectForEntityForName("Reminder", inManagedObjectContext: managedObjectContext) as! Reminder
+//        
+//        reminder.name = "testReminder"
         
-        // Self's detailVC is ReminderVC
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? ReminderViewController
-        }
+        // Fetch data
+        fetchReminders()
         
+        // Set up notification center
         let notificationCenter = NSNotificationCenter.defaultCenter()
         let queue = NSOperationQueue.mainQueue()
         
         notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
-            if let row = notification?.userInfo?[Functionalities.Notification.CellRow] as? Int {
-                let indexPath = NSIndexPath(forRow: row, inSection: 0)
+            if let row = notification.userInfo?[Functionalities.Notification.CellRow] as? Int {
                 self.doneReminderAtRow(row)
             }
+        }
+        
+        // Set up display
+        self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+        if let split = self.splitViewController {
+            let controllers = split.viewControllers
+            self.detailViewController = controllers[controllers.count-1] /*.topViewController*/ as? ReminderViewController // Self's detailVC is ReminderVC
         }
         
         // Other
@@ -58,7 +67,8 @@ class ListViewController: UITableViewController {
     func insertionRowForRmd(thisRmd: Reminder) -> Int {
         var i = 0
         for otherRmd in reminders {
-            if otherRmd.dueDate.timeIntervalSince1970 < thisRmd.dueDate.timeIntervalSince1970 {
+            // core data changed this: duedates
+            if otherRmd.dueDate!.timeIntervalSince1970 < thisRmd.dueDate!.timeIntervalSince1970 {
                 i++
             } else {
                 break
@@ -68,25 +78,43 @@ class ListViewController: UITableViewController {
     }
     
     func insertNewReminder(reminder: Reminder, withStyle style: UITableViewRowAnimation, atIndex index:Int) {
+        // Non-core data implementation
+        /*
         reminders.insert(reminder, atIndex: index)
+        */
+        
+        // New data is brought in from AddReminderVC. Update Data Model
+        fetchReminders() // TODO 1: if let index = find(reminders, reminder) instead of using insertionRowForRmd
+        saveReminders()
         
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: style)
     }
     
     func insertNewReminder(reminder: Reminder, withStyle style: UITableViewRowAnimation) {
+        // See TODO 1
         let insertIndex = insertionRowForRmd(reminder)
+        
         insertNewReminder(reminder, withStyle: style, atIndex: insertIndex)
     }
     
     func deleteReminderAtRow(row: Int, withStyle style: UITableViewRowAnimation) {
+        // Non-core data implementation
+        /*
         reminders.removeAtIndex(row)
+        */
+        
+        managedObjectContext.deleteObject(reminders[row])
+        
         tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 0)], withRowAnimation: style)
+        
+        saveReminders()
     }
     
     func doneReminderAtRow(row: Int) {
         let rmd = reminders[row]
-        if rmd.isRecurring {
+        // core date changed this
+        if (rmd.isRecurring != nil) {
             
             deleteReminderAtRow(row, withStyle: .Right)
             
@@ -108,7 +136,7 @@ class ListViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showReminder" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! ReminderViewController
                 controller.reminder = reminders[indexPath.row]
                 controller.listViewController = self
@@ -152,11 +180,47 @@ class ListViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            reminders.removeAtIndex(indexPath.row)
+            // Non-core data execution
+            /* reminders.removeAtIndex(indexPath.row) */
+            
+            let reminderToDelete = reminders[indexPath.row]
+            managedObjectContext.deleteObject(reminderToDelete)
+            
+            fetchReminders()
+            
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
+    
+    // MARK: – Core Data
+    func fetchReminders() {
+        let fetchRequest = NSFetchRequest(entityName: "Reminder")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        do {
+            if let fetchResults = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Reminder] {
+                reminders = fetchResults
+            }
+        } catch {
+            abort()
+        }
+    }
+    
+    func saveReminders() {
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Cannot save, in ListVC.saveReminders()")
+        }
+    }
 }
 
+/*
+Creating an alert
+let alert = UIAlertController(title: fetchResults[0].name, message: fetchResults[0].name, preferredStyle: .Alert)
+
+self.presentViewController(alert, animated: true, completion: nil)
+
+*/

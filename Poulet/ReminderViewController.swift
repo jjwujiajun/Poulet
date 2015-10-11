@@ -68,7 +68,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
             reminder?.name = reminderNameLabel.text
         }
         
-        listViewController.tableView.reloadRowsAtIndexPaths([reminderIndexPathInListView as AnyObject], withRowAnimation: UITableViewRowAnimation.Fade)
+        listViewController.tableView.reloadRowsAtIndexPaths([reminderIndexPathInListView], withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
     func configureView() {
@@ -76,19 +76,28 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         if let rmd = reminder {
             reminderNameLabel?.text = rmd.name
             
-            reminderDateLabel?.text = Functionalities.dateFormatter(rmd.dueDate)
-            datePicker?.setDate(rmd.dueDate, animated: false)
+            if let dueDate = rmd.dueDate {
+                reminderDateLabel?.text = Functionalities.dateFormatter(dueDate)
+                datePicker?.setDate(dueDate, animated: false)
+            }
             
             updateRecurrenceLabel()
-            recurrencePicker?.selectRow(rmd.recurrenceCycleQty, inComponent: Picker.QuantityComponent, animated: true)
-            recurrencePicker?.selectRow(rmd.recurrenceCycleUnit, inComponent: Picker.UnitsComponent, animated: true)
+            
+            if let picker = recurrencePicker {
+                if let recurrenceCycleQty = rmd.recurrenceCycleQty as? Int {
+                    picker.selectRow(recurrenceCycleQty, inComponent: Picker.QuantityComponent, animated: true)
+                }
+                if let recurrenceCycleUnit = rmd.recurrenceCycleUnit as? Int {
+                    picker.selectRow(recurrenceCycleUnit, inComponent: Picker.UnitsComponent, animated: true)
+                }
+            }
         }
     }
     
     @IBAction func datePicketValueChanged(sender: UIDatePicker) {
         if let rmd = reminder {
             rmd.dueDate = sender.date
-            reminderDateLabel?.text = Functionalities.dateFormatter(rmd.dueDate)
+            reminderDateLabel?.text = Functionalities.dateFormatter(sender.date)
             
             reminderFieldsWasEdited = true
         }
@@ -101,10 +110,12 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
             if rmd.recurrenceCycleQty == 0 || rmd.recurrenceCycleUnit == 0 {
                 labelText = "Not repeated"
             } else {
-                if rmd.recurrenceCycleQty > 1 {
-                    labelText += "\(rmd.recurrenceCycleQty) "
+                if let recurrenceCycleQty = rmd.recurrenceCycleQty as? Int {
+                    if recurrenceCycleQty > 1 {
+                        labelText += "\(recurrenceCycleQty) "
+                    }
                 }
-                labelText += FunctionalitiesPeriod[rmd.recurrenceCycleUnit]
+                labelText += FunctionalitiesPeriod[(rmd.recurrenceCycleUnit ?? 0) as Int]
             }
             
             reminderRecurLabel?.text = labelText
@@ -128,17 +139,17 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if count(reminderNameLabel.text ?? "") == 0 {
+        if (reminderNameLabel.text ?? "").characters.count == 0 {
             //
         }
         
         if reminderFieldsWasEdited {
-            println("true")
+            print("true")
         } else {
-            println("false")
+            print("false")
         }
         if let tbvc = segue.destinationViewController as? ListViewController {
-            println("hi")
+            print("hi")
             if reminderFieldsWasEdited {
                 tbvc.tableView.reloadData()
             }
@@ -173,13 +184,13 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         }
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == Picker.QuantityComponent {
             return "\(row)"
         } else if component == Picker.UnitsComponent {
             return FunctionalitiesPeriod[row]
         } else {
-            println("Error in func pickerView(titleForRow:forComponent:)")
+            print("Error in func pickerView(titleForRow:forComponent:)")
             return ""
         }
     }
