@@ -1,0 +1,27 @@
+Great resources for learning everything for XCode
+
+Library References (not for learning, but referencing on the way)
+Apple Developer Library (duh)
+
+Model View Control (MVC) pattern
+Stanford lecture
+
+Delegation
+Stanford lecture
+
+Storyboard
+Stanford lecture
+
+Tables, tableViews, tableViewControllers, delegate etc
+Stanford lecture
+
+Core data framework
+Learn this for concept before using XCode's built-in CoreData "magic"
+http://jamesonquave.com/blog/core-data-in-swift-tutorial-part-1/
+
+Notifications
+Intro: Stanford lecture
+Implementation: http://jamesonquave.com/blog/local-notifications-in-ios-8-with-swift-part-1/
+
+Device differences
+Stanford lecture
