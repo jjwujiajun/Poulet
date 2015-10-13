@@ -133,6 +133,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
             }
         }
     }
+    
+    // MARK: - Local Notification
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = NSNotification(name: Functionalities.Notification.AppLaunchedThruNotif, object: self, userInfo: notification.userInfo)
+        notificationCenter.postNotification(notification)
+    }
+    
+    // See application(didFinishLaunching:withOptions) for notification setup step
 
 }
 

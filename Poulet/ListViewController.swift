@@ -51,6 +51,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             }
         }
         
+        notificationCenter.addObserverForName(Functionalities.Notification.AppLaunchedThruNotif, object: nil, queue: queue) { notification in
+            if let userInfo = notification.userInfo {
+                print(userInfo["uuid"])
+            }
+        }
+        
         // Set up display
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
         if let split = self.splitViewController {
@@ -138,6 +144,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             if let reminder = NSEntityDescription.insertNewObjectForEntityForName(Functionalities.Entity.Reminder, inManagedObjectContext: managedObjectContext) as? Reminder{
                 
                 reminder.name = name
+                reminder.uuid = NSUUID().UUIDString
                 reminder.isRecurring = isRecurring
                 reminder.recurrenceCycleQty = recurrenceCycleQty
                 reminder.recurrenceCycleUnit = recurrenceCycleUnit
@@ -249,7 +256,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         notification.alertBody = reminder.name
         notification.fireDate = reminder.dueDate
         notification.soundName = UILocalNotificationDefaultSoundName
-        //        notification.userInfo = ["UUID": item.UUID, ] // assign a unique identifier to the notification so that we can retrieve it later
+        notification.userInfo = ["uuid": (reminder.uuid! as String + "test")] // assign a unique identifier to the notification so that we can retrieve it later
         
         notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
         notification.category = "TODO_CATEGORY"

@@ -18,6 +18,7 @@ class Reminder: NSManagedObject {
     @NSManaged var nextRecurringDate: NSDate?
     @NSManaged var recurrenceCycleQty: NSNumber?
     @NSManaged var recurrenceCycleUnit: NSNumber?
+    @NSManaged var uuid: NSString?
     
     var oldIndexPath: NSIndexPath?
     

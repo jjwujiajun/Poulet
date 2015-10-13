@@ -14,6 +14,7 @@ Stanford lecture
 
 Tables, tableViews, tableViewControllers, delegate etc
 Stanford lecture
+custom tableviewcells http://www.andrewcbancroft.com/2015/02/12/custom-uitableviewcell-text-input-swift/
 
 Core data framework
 Learn this for concept before using XCode's built-in CoreData "magic"
