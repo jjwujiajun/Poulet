@@ -26,9 +26,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //NSFetchedResultsController for notifying tbableview when dataachanges, instead of refreshing table every "n" seconds
         
         // Fetch data
         fetchSortedReminders()
@@ -59,8 +61,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         
         if let row = reminders.indexOf(reminder) { // will not work if did not call fetchSortedReminders()
             let insertIndex = NSIndexPath(forRow: row, inSection: 0)
-            var style = UITableViewRowAnimation.Right
             
+            var style = UITableViewRowAnimation.Right
             if row == reminder.oldIndexPath?.row {
                 style = UITableViewRowAnimation.Fade
             }
@@ -215,6 +217,21 @@ Creating an alert
 let alert = UIAlertController(title: fetchResults[0].name, message: fetchResults[0].name, preferredStyle: .Alert)
 
 self.presentViewController(alert, animated: true, completion: nil)
+*/
+
+/*
+Array sorting comparison 
+array.sorted({(left: TodoItem, right:TodoItem) -> Bool in
+(left.deadline.compare(right.deadline) == .OrderedAscending)
+*/
+
+/*
+Array of Array mapping to Array of Object // TodoItem in this case
+items.map({
+           TodoItem(deadline: $0["deadline"] as! NSDate,
+                       title: $0["title"] as! String,
+                        UUID: $0["UUID"] as! String!)
+          })
 */
 
 /*

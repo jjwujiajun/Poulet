@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D732460B1BC77D4400E0D0B3 /* reminders.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		D73246701BCB676A00E0D0B3 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = D732466F1BCB676A00E0D0B3 /* Notes */; settings = {ASSET_TAGS = (); }; };
 		D75055771B32AB9200EB1DA9 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75055761B32AB9200EB1DA9 /* Reminder.swift */; };
 		D76C92AD1BA3C993005669E4 /* Funtionalities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C92AC1BA3C993005669E4 /* Funtionalities.swift */; };
 		D76C92B11BA685D0005669E4 /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		D732460A1BC77D4400E0D0B3 /* reminders.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reminders.xcdatamodel; sourceTree = "<group>"; };
+		D732466F1BCB676A00E0D0B3 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		D75055761B32AB9200EB1DA9 /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		D76C92AC1BA3C993005669E4 /* Funtionalities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Funtionalities.swift; path = ../Funtionalities.swift; sourceTree = "<group>"; };
 		D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
 				D787D4B81B2E83DA005D5603 /* ListViewController.swift */,
+				D732466F1BCB676A00E0D0B3 /* Notes */,
 				D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */,
 				D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */,
 				D75055761B32AB9200EB1DA9 /* Reminder.swift */,
@@ -212,6 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D73246701BCB676A00E0D0B3 /* Notes in Resources */,
 				D787D4BE1B2E83DA005D5603 /* Main.storyboard in Resources */,
 				D787D4C31B2E83DA005D5603 /* LaunchScreen.xib in Resources */,
 				D787D4C01B2E83DA005D5603 /* Images.xcassets in Resources */,
