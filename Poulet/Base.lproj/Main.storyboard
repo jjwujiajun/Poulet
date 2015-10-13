@@ -43,7 +43,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Reminder" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0rS-j3-qOC">
-                                                    <rect key="frame" x="1" y="10" width="582" height="24"/>
+                                                    <rect key="frame" x="18" y="10" width="565" height="24"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -53,7 +53,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0rS-j3-qOC" secondAttribute="trailing" constant="9" id="Vyd-9v-tuN"/>
                                                 <constraint firstItem="0rS-j3-qOC" firstAttribute="top" secondItem="Ajf-17-zcS" secondAttribute="topMargin" constant="2" id="kp5-I8-ele"/>
-                                                <constraint firstItem="0rS-j3-qOC" firstAttribute="leading" secondItem="Ajf-17-zcS" secondAttribute="leadingMargin" constant="-7" id="tPR-F0-wNw"/>
+                                                <constraint firstItem="0rS-j3-qOC" firstAttribute="leading" secondItem="Ajf-17-zcS" secondAttribute="leadingMargin" constant="10" id="tPR-F0-wNw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -66,7 +66,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n4-RJ-8PH">
-                                                    <rect key="frame" x="8" y="8" width="584" height="24"/>
+                                                    <rect key="frame" x="18" y="8" width="574" height="24"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="vPk-Ec-Mn5"/>
@@ -85,7 +85,7 @@
                                             <constraints>
                                                 <constraint firstItem="0n4-RJ-8PH" firstAttribute="top" secondItem="II7-us-Zu1" secondAttribute="topMargin" id="FQz-bB-voN"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0n4-RJ-8PH" secondAttribute="trailing" id="N2E-Zg-3HE"/>
-                                                <constraint firstItem="0n4-RJ-8PH" firstAttribute="leading" secondItem="II7-us-Zu1" secondAttribute="leadingMargin" id="wrC-wc-js4"/>
+                                                <constraint firstItem="0n4-RJ-8PH" firstAttribute="leading" secondItem="II7-us-Zu1" secondAttribute="leadingMargin" constant="10" id="wrC-wc-js4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -126,7 +126,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not repeated" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzI-G8-kik">
-                                                    <rect key="frame" x="1" y="10" width="598" height="24"/>
+                                                    <rect key="frame" x="18" y="10" width="564" height="24"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="8zX-wr-yBi"/>
@@ -145,7 +145,7 @@
                                             <constraints>
                                                 <constraint firstItem="fzI-G8-kik" firstAttribute="centerX" secondItem="6eJ-64-XG8" secondAttribute="centerX" id="Scw-u4-MoW"/>
                                                 <constraint firstItem="fzI-G8-kik" firstAttribute="top" secondItem="6eJ-64-XG8" secondAttribute="topMargin" constant="2" id="gjM-qO-OdL"/>
-                                                <constraint firstItem="fzI-G8-kik" firstAttribute="leading" secondItem="6eJ-64-XG8" secondAttribute="leadingMargin" constant="-7" id="rgz-8j-CXy"/>
+                                                <constraint firstItem="fzI-G8-kik" firstAttribute="leading" secondItem="6eJ-64-XG8" secondAttribute="leadingMargin" constant="10" id="rgz-8j-CXy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -157,8 +157,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="185.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BkM-bW-R4A">
-                                                    <rect key="frame" x="43" y="12" width="514" height="162"/>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BkM-bW-R4A">
+                                                    <rect key="frame" x="140" y="-15" width="320" height="216"/>
                                                     <animations/>
                                                 </pickerView>
                                             </subviews>
@@ -166,8 +166,13 @@
                                             <constraints>
                                                 <constraint firstItem="BkM-bW-R4A" firstAttribute="centerX" secondItem="4Gk-Bt-z4b" secondAttribute="centerX" id="Op8-7q-piS"/>
                                                 <constraint firstItem="BkM-bW-R4A" firstAttribute="leading" secondItem="4Gk-Bt-z4b" secondAttribute="leadingMargin" constant="35" id="Uaj-SH-VkG"/>
-                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="top" secondItem="4Gk-Bt-z4b" secondAttribute="topMargin" constant="4" id="UoB-GT-hua"/>
+                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="top" secondItem="4Gk-Bt-z4b" secondAttribute="topMargin" constant="-23" id="UoB-GT-hua"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Uaj-SH-VkG"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
@@ -225,7 +230,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItG-Sy-4lE">
-                                            <rect key="frame" x="8" y="8" width="524.5" height="30"/>
+                                            <rect key="frame" x="18" y="8" width="514.5" height="30"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -244,7 +249,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyB-wV-ku5">
-                                            <rect key="frame" x="8" y="47" width="524.5" height="20.5"/>
+                                            <rect key="frame" x="18" y="47" width="514.5" height="20.5"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -260,18 +265,22 @@
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="trailing" secondItem="37f-cq-3Eg" secondAttribute="trailingMargin" id="JVC-eT-7wz"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="Mbi-3Q-ovk"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="bottom" secondItem="37f-cq-3Eg" secondAttribute="bottomMargin" id="QaA-Gm-q3M"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="ItG-Sy-4lE" secondAttribute="leading" constant="-5" id="Tez-pz-gkp"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="Ueq-EP-KMd"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="Y1Q-Vz-Of3"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="trailing" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="c68-3J-UJD"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="leading" id="eXS-F9-6zI"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="fuU-Bx-zLa"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ItG-Sy-4lE" secondAttribute="trailing" constant="50" id="hcP-2u-Xgo"/>
-                                        <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="i9T-KK-IYU"/>
+                                        <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="i9T-KK-IYU"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="lML-Id-GR5"/>
+                                        <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="tTu-ZR-vNb"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="Tez-pz-gkp"/>
                                             <exclude reference="hcP-2u-Xgo"/>
+                                            <exclude reference="lML-Id-GR5"/>
                                             <exclude reference="1ti-wS-3V2"/>
                                             <exclude reference="Fua-H7-Cgd"/>
                                             <exclude reference="Y1Q-Vz-Of3"/>
@@ -323,14 +332,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
-                                <rect key="frame" x="16" y="72" width="568" height="24"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
+                                <rect key="frame" x="20" y="72" width="560" height="24"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="At..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIh-CK-Pbe">
-                                <rect key="frame" x="16" y="104" width="568" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="At..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIh-CK-Pbe">
+                                <rect key="frame" x="20" y="104" width="560" height="24"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="RrK-Vn-mEt"/>
@@ -344,8 +353,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3L-xU-c50">
-                                <rect key="frame" x="304" y="180" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3L-xU-c50">
+                                <rect key="frame" x="304" y="180" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="+ 1 hour">
@@ -358,8 +367,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="NX3-eK-1wj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7Fb-Wk-1xc">
-                                <rect key="frame" x="16" y="180" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7Fb-Wk-1xc">
+                                <rect key="frame" x="20" y="180" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="+ 10 min">
@@ -372,8 +381,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="O7I-kG-8PE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZoI-Nu-9VH">
-                                <rect key="frame" x="160" y="224" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZoI-Nu-9VH">
+                                <rect key="frame" x="162" y="224" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="- 30 min">
@@ -386,8 +395,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="TTT-R7-uTC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8lX-7h-MLa">
-                                <rect key="frame" x="304" y="224" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8lX-7h-MLa">
+                                <rect key="frame" x="304" y="224" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="- 1 hour">
@@ -400,8 +409,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="2XJ-po-LkK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cKG-DB-HPa">
-                                <rect key="frame" x="16" y="224" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cKG-DB-HPa">
+                                <rect key="frame" x="20" y="224" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="- 10 min">
@@ -414,8 +423,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="gI3-fw-ubi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="bjy-eg-g6a">
-                                <rect key="frame" x="16" y="136" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="bjy-eg-g6a">
+                                <rect key="frame" x="20" y="136" width="134" height="36"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="136" id="MmJ-34-bQN"/>
@@ -436,8 +445,8 @@
                                     <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Vo2-Ls-Ce5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A1d-HT-oi4">
-                                <rect key="frame" x="448" y="136" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A1d-HT-oi4">
+                                <rect key="frame" x="446" y="136" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Night">
@@ -450,8 +459,8 @@
                                     <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Gpk-rY-U8B"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="w1C-vN-1Dw">
-                                <rect key="frame" x="304" y="136" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="w1C-vN-1Dw">
+                                <rect key="frame" x="304" y="136" width="134" height="36"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="136" id="flF-Zb-jO3"/>
@@ -472,8 +481,8 @@
                                     <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="Tli-eH-6gC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Uuo-x5-ZBa">
-                                <rect key="frame" x="160" y="136" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Uuo-x5-ZBa">
+                                <rect key="frame" x="162" y="136" width="134" height="36"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="136" id="L4v-VW-foY"/>
@@ -494,8 +503,8 @@
                                     <action selector="absoluteTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="W29-bC-G0B"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Dkp-Hn-G8T">
-                                <rect key="frame" x="448" y="224" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Dkp-Hn-G8T">
+                                <rect key="frame" x="446" y="224" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="- 1 day">
@@ -508,8 +517,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="ndW-rY-jwu"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45b-P4-3ok">
-                                <rect key="frame" x="0.0" y="364" width="600" height="192"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="45b-P4-3ok">
+                                <rect key="frame" x="0.0" y="310" width="600" height="246"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDO-JI-Kpk">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
@@ -522,8 +531,8 @@
                                             <action selector="addButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="7Gw-Fx-bDU"/>
                                         </connections>
                                     </button>
-                                    <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="NA3-22-gfh">
-                                        <rect key="frame" x="140" y="30" width="320" height="162"/>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="NA3-22-gfh">
+                                        <rect key="frame" x="140" y="30" width="320" height="216"/>
                                         <animations/>
                                         <date key="date" timeIntervalSinceReferenceDate="456632761.59713501">
                                             <!--2015-06-22 02:26:01 +0000-->
@@ -550,8 +559,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ee4-eV-d26">
-                                <rect key="frame" x="448" y="180" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ee4-eV-d26">
+                                <rect key="frame" x="446" y="180" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="+ 1 day">
@@ -564,8 +573,8 @@
                                     <action selector="relativeTimeButtonTouchUp:" destination="Vtj-1q-t8O" eventType="touchUpInside" id="E7N-tD-rvn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scx-ge-fjn">
-                                <rect key="frame" x="160" y="180" width="136" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scx-ge-fjn">
+                                <rect key="frame" x="162" y="180" width="134" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="+ 30 min">
@@ -671,9 +680,9 @@
                                 <exclude reference="IPe-ki-qIY"/>
                                 <exclude reference="ajr-hn-uVl"/>
                                 <exclude reference="fDj-py-L7O"/>
-                                <exclude reference="CXx-GM-7pN"/>
                                 <exclude reference="RSH-5H-aR8"/>
                                 <exclude reference="mUP-i0-Ewh"/>
+                                <exclude reference="CXx-GM-7pN"/>
                                 <exclude reference="7eV-kR-CgK"/>
                                 <exclude reference="wrs-D9-ciM"/>
                                 <exclude reference="rex-kJ-cXB"/>

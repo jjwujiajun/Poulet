@@ -19,9 +19,10 @@ class ReminderTableViewCell: UITableViewCell {
         didSet {
             if let rmd = reminder {
                 name?.text = rmd.name
-                if let dueDateToFormat = rmd.dueDate {
-                    dueDate?.text = Functionalities.dateFormatter(dueDateToFormat)
+                if let rmdDueDate = rmd.dueDate {
+                    dueDate?.text = Functionalities.dateFormatter(rmdDueDate)
                 }
+                
             }
         }
     }

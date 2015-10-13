@@ -189,7 +189,7 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
                             reminder.name = inputField.text
                             reminder.dueDate = datePicker.date
                             
-                            lvc.insertNewReminder(reminder)
+                            lvc.newReminder = reminder
                         }
                     }
                 

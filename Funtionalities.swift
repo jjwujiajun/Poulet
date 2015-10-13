@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Functionalities {
     
@@ -32,7 +33,13 @@ class Functionalities {
     
     struct Entity {
         static let Reminder = "Reminder"
-        static let Reminder_sortKey = "dueDue"
+        static let Reminder_sortKey = "dueDate"
+    }
+
+    struct ReminderCell {
+        static let overdueColor = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1) // light gray
+        static let notDueColor = UIColor.whiteColor()
+        static let darkOrange = UIColor(red: 204/255, green: 153/255, blue: 0, alpha: 1)
     }
     
     static func dateFormatter(timeLabelDate: NSDate) -> String {

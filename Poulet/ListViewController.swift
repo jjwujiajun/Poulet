@@ -15,6 +15,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     private var reminders = [Reminder]()
+    
+    var newReminder: Reminder?
+    // How animation will work when reminder is newly added
+    // fetchSortedReminders() in viewWillAppear
+    // saveReminders() in viewWillAppear, not in viewDidAppear bc list could change when user completed reminder from notification
+    // newlyAddedReminder pointer is nil-ed after viewDidAppear
 
     @IBAction func addReminder(sender: UIBarButtonItem) {
     }
@@ -53,12 +59,30 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func insertNewReminder(reminder: Reminder) {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // New data is brought in from AddReminderVC. Update Data Model
-        fetchSortedReminders()
-        saveReminders()
+        if newReminder == nil {
+            fetchSortedReminders()
+            saveReminders()
+        }
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
+        if newReminder != nil { // If view appeared after AddRmdVC created new rmd
+            fetchSortedReminders()
+            saveReminders()
+            createLocalNotification(newReminder!)
+            animateInsertRmdIntoList(newReminder!)
+            
+            newReminder = nil
+        }
+    }
+    
+    func animateInsertRmdIntoList(reminder: Reminder) {
         if let row = reminders.indexOf(reminder) { // will not work if did not call fetchSortedReminders()
             let insertIndex = NSIndexPath(forRow: row, inSection: 0)
             
@@ -68,6 +92,16 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             }
             tableView.insertRowsAtIndexPaths([insertIndex], withRowAnimation: style)
         }
+    }
+    
+    private func insertNewReminder(reminder: Reminder) {
+        // New data is brought in from AddReminderVC. Update Data Model
+        fetchSortedReminders()
+        saveReminders()
+        
+        createLocalNotification(reminder)
+        
+        animateInsertRmdIntoList(reminder)
     }
     
     private func deleteReminderAtIndexPath(path: NSIndexPath) {
@@ -176,6 +210,16 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if let reminderCell = cell as? ReminderTableViewCell {
+            if reminderCell.reminder?.dueDate?.timeIntervalSinceNow <= 0 {
+                reminderCell.backgroundColor = Functionalities.ReminderCell.overdueColor // Or use .backgroundView if want to use a image/view for background instead
+            } else {
+                reminderCell.backgroundColor = Functionalities.ReminderCell.notDueColor
+            }
+        }
+    }
+    
     // MARK: – Core Data
     private func fetchSortedReminders() {
         let fetchRequest = NSFetchRequest(entityName: Functionalities.Entity.Reminder)
@@ -196,6 +240,22 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         } catch {
             print("Cannot save, in ListVC.saveReminders()")
         }
+    }
+    
+    // Local Notifications
+    func createLocalNotification(reminder: Reminder) {
+        // Create a corresponding local notification
+        let notification = UILocalNotification()
+        notification.alertBody = reminder.name
+        notification.fireDate = reminder.dueDate
+        notification.soundName = UILocalNotificationDefaultSoundName
+        //        notification.userInfo = ["UUID": item.UUID, ] // assign a unique identifier to the notification so that we can retrieve it later
+        
+        notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+        notification.category = "TODO_CATEGORY"
+        
+        // if reminder is < 64th, schedule. Update when old ones are completed
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
 }
 
