@@ -112,9 +112,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     private func deleteReminderAtIndexPath(path: NSIndexPath) {
         var style = UITableViewRowAnimation.Fade
+        
         if reminders[path.row].oldIndexPath != nil {
             style = UITableViewRowAnimation.Right
         }
+        
+        deleteLocalNotification(reminders[path.row])
         
         managedObjectContext.deleteObject(reminders[path.row])
         // Non-core data implementation :        reminders.removeAtIndex(row)
@@ -263,6 +266,19 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         
         // if reminder is < 64th, schedule. Update when old ones are completed
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
+    func deleteLocalNotification(reminder: Reminder) {
+        if let scheduledNotifications = UIApplication.sharedApplication().scheduledLocalNotifications {
+            for notification in scheduledNotifications {
+                if let userInfo = notification.userInfo {
+                    if userInfo["uuid"] as! String == reminder.uuid {
+                        UIApplication.sharedApplication().cancelLocalNotification(notification)
+                        break
+                    }
+                }
+            }
+        }
     }
 }
 
