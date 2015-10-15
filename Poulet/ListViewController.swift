@@ -254,18 +254,39 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     // Local Notifications
     func createLocalNotification(reminder: Reminder) {
-        // Create a corresponding local notification
-        let notification = UILocalNotification()
-        notification.alertBody = reminder.name
-        notification.fireDate = reminder.dueDate
-        notification.soundName = UILocalNotificationDefaultSoundName
-        notification.userInfo = ["uuid": (reminder.uuid! as String + "test")] // assign a unique identifier to the notification so that we can retrieve it later
-        
-        notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
-        notification.category = "TODO_CATEGORY"
-        
-        // if reminder is < 64th, schedule. Update when old ones are completed
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
+        if let count = scheduledLocalNotifications?.count {
+            print(count)
+            
+            if count < 64 {
+            
+                // Create a corresponding local notification
+                let notification = UILocalNotification()
+                notification.alertBody = reminder.name
+                notification.fireDate = reminder.dueDate
+                notification.soundName = UILocalNotificationDefaultSoundName
+                notification.userInfo = ["uuid": (reminder.uuid! as String + "test")] // assign a unique identifier to the notification so that we can retrieve it later
+                
+                notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+                notification.category = "TODO_CATEGORY"
+                
+                // if reminder is < 64th, schedule. Update when old ones are completed
+                UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                
+            } else if let lastScheduledRmdNotif = scheduledLocalNotifications?[count - 1] {
+                if let lastScheduledRmdUserInfo = lastScheduledRmdNotif.userInfo {
+                    
+                    for rmd in reminders {
+                        if lastScheduledRmdUserInfo["uuid"] as! String == rmd.uuid {
+                            print("\(reminders.indexOf(rmd))" + " " + "\(reminders.indexOf(reminder))")
+                            deleteLocalNotification(rmd)
+                            createLocalNotification(reminder)
+                            break
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func deleteLocalNotification(reminder: Reminder) {
