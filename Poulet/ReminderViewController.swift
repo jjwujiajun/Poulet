@@ -32,6 +32,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     }
     
     var reminderFieldsWasEdited = false
+    var reminderOldDueDate: NSDate?
     
     var FunctionalitiesPeriod: [String] {
         get{
@@ -61,16 +62,22 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         let recurLabelTapped = UITapGestureRecognizer(target: self, action: Selector("reminderRecurLabelTapped"))
         reminderRecurLabel.userInteractionEnabled = true
         reminderRecurLabel.addGestureRecognizer(recurLabelTapped)
+        
+        reminderOldDueDate = reminder?.dueDate
     }
     
     override func viewWillDisappear(animated: Bool) {
         if reminderNameLabel.isFirstResponder() {
-            reminder?.name = reminderNameLabel.text
+            saveNameLabelText()
         }
         
-        listViewController.tableView.reloadRowsAtIndexPaths([reminderIndexPathInListView], withRowAnimation: UITableViewRowAnimation.Fade)
+        if reminderFieldsWasEdited {
+            if reminder != nil {
+                listViewController.didEditReminder(reminder!, dueDateChanged: (reminderOldDueDate != reminder!.dueDate))
+            }
+        }
     }
-    
+
     func configureView() {
         // Update the user interface for the detail item.
         if let rmd = reminder {
@@ -138,34 +145,22 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (reminderNameLabel.text ?? "").characters.count == 0 {
-            //
-        }
-        
-        if reminderFieldsWasEdited {
-            print("true")
-        } else {
-            print("false")
-        }
-        if let tbvc = segue.destinationViewController as? ListViewController {
-            print("hi")
-            if reminderFieldsWasEdited {
-                tbvc.tableView.reloadData()
-            }
-        }
-    }
-    
     // MARK: - Text Field
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if let rmd = reminder {
-            rmd.name = reminderNameLabel.text
-            reminderFieldsWasEdited = true
-        }
+        saveNameLabelText()
         
         return true // if true, autocorrect and autocapitalization will be triggered
+    }
+    
+    func saveNameLabelText() {
+        if let rmd = reminder {
+            if rmd.name != reminderNameLabel.text {
+                rmd.name = reminderNameLabel.text
+                reminderFieldsWasEdited = true
+            }
+        }
     }
     
     // MARK: - Picker View delegate and dataSource

@@ -26,8 +26,10 @@ class Functionalities {
     static let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
     struct Notification {
-        static let AppLaunchedThruNotif = "AppLaunchedThruNotif"
+        static let ScheduledNotificationDue = "aNotificationDue"
         static let ReminderDone = "reminderDone"
+        
+        static let RefreshTable = "refreshTable"
         
         static let CellIndexPath = "cellIndexPath"
     }

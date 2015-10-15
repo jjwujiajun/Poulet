@@ -49,11 +49,16 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             if let indexPath = notification.userInfo?[Functionalities.Notification.CellIndexPath] as? NSIndexPath {
                 self.doneReminderAtRow(indexPath)
             }
+            
         }
         
-        notificationCenter.addObserverForName(Functionalities.Notification.AppLaunchedThruNotif, object: nil, queue: queue) { notification in
+        notificationCenter.addObserverForName(Functionalities.Notification.ScheduledNotificationDue, object: nil, queue: queue) { notification in
+            print("ListVC received notification")
             if let userInfo = notification.userInfo {
                 print(userInfo["uuid"])
+                // Badge icon
+                List.sharedInstance.dueRmdCount += 1
+                UIApplication.sharedApplication().applicationIconBadgeNumber = List.sharedInstance.dueRmdCount
             }
         }
         
@@ -65,19 +70,9 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if newReminder == nil {
-            fetchSortedReminders()
-            saveReminders()
-        }
-        tableView.reloadData()
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        print("vda")
         if newReminder != nil { // If view appeared after AddRmdVC created new rmd
             fetchSortedReminders()
             saveReminders()
@@ -108,6 +103,17 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         createLocalNotification(reminder)
         
         animateInsertRmdIntoList(reminder)
+    }
+    
+    func didEditReminder(reminder: Reminder, dueDateChanged: Bool) {
+        fetchSortedReminders()
+        saveReminders()
+        tableView.reloadData()
+        
+        if dueDateChanged {
+            deleteLocalNotification(reminder)
+            createLocalNotification(reminder)
+        }
     }
     
     private func deleteReminderAtIndexPath(path: NSIndexPath) {
@@ -254,6 +260,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     // Local Notifications
     func createLocalNotification(reminder: Reminder) {
+        print("notif created")
         let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if let count = scheduledLocalNotifications?.count {
             print(count)
