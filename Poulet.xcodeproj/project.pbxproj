@@ -93,16 +93,14 @@
 		D787D4B31B2E83DA005D5603 /* Poulet */ = {
 			isa = PBXGroup;
 			children = (
-				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
 				D787D4B81B2E83DA005D5603 /* ListViewController.swift */,
-				D732466F1BCB676A00E0D0B3 /* Notes */,
-				D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */,
-				D738A95D1BCF33CE000811AF /* List.swift */,
 				D787D4BA1B2E83DA005D5603 /* ReminderViewController.swift */,
-				D75055761B32AB9200EB1DA9 /* Reminder.swift */,
-				D787D4BC1B2E83DA005D5603 /* Main.storyboard */,
-				D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */,
 				D78FC1161B2EAC0C00C42AA5 /* AddReminderViewController.swift */,
+				D76C92B01BA685D0005669E4 /* ReminderTableViewCell.swift */,
+				D787D4BC1B2E83DA005D5603 /* Main.storyboard */,
+				D738A95D1BCF33CE000811AF /* List.swift */,
+				D75055761B32AB9200EB1DA9 /* Reminder.swift */,
+				D73246091BC77D4400E0D0B3 /* reminders.xcdatamodeld */,
 				D787D4B41B2E83DA005D5603 /* Supporting Files */,
 			);
 			path = Poulet;
@@ -111,6 +109,8 @@
 		D787D4B41B2E83DA005D5603 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
+				D732466F1BCB676A00E0D0B3 /* Notes */,
 				D787D4BF1B2E83DA005D5603 /* Images.xcassets */,
 				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
 				D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */,

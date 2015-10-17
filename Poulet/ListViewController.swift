@@ -70,6 +70,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        //TODO: investigate how to reload data when return from homescreen
+        tableView.reloadData()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         print("vda")
@@ -114,6 +120,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             deleteLocalNotification(reminder)
             createLocalNotification(reminder)
         }
+        
+        //TODO: highlight row when return
     }
     
     private func deleteReminderAtIndexPath(path: NSIndexPath) {
@@ -260,10 +268,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     // Local Notifications
     func createLocalNotification(reminder: Reminder) {
-        print("notif created")
         let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if let count = scheduledLocalNotifications?.count {
-            print(count)
             
             if count < 64 {
             
@@ -272,7 +278,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 notification.alertBody = reminder.name
                 notification.fireDate = reminder.dueDate
                 notification.soundName = UILocalNotificationDefaultSoundName
-                notification.userInfo = ["uuid": (reminder.uuid! as String + "test")] // assign a unique identifier to the notification so that we can retrieve it later
+                notification.userInfo = ["uuid": reminder.uuid! as String] // assign a unique identifier to the notification so that we can retrieve it later
                 
                 notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
                 notification.category = "TODO_CATEGORY"
@@ -285,7 +291,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                     
                     for rmd in reminders {
                         if lastScheduledRmdUserInfo["uuid"] as! String == rmd.uuid {
-                            print("\(reminders.indexOf(rmd))" + " " + "\(reminders.indexOf(reminder))")
                             deleteLocalNotification(rmd)
                             createLocalNotification(reminder)
                             break
