@@ -36,6 +36,9 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIApplication.sharedApplication().scheduledLocalNotifications?.removeAll()
+        print(UIApplication.sharedApplication().scheduledLocalNotifications?.count)
+        
         //NSFetchedResultsController for notifying tbableview when dataachanges, instead of refreshing table every "n" seconds
         
         // Fetch data
@@ -47,7 +50,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         
         notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
             if let indexPath = notification.userInfo?[Functionalities.Notification.CellIndexPath] as? NSIndexPath {
-                self.doneReminderAtRow(indexPath)
+                self.doneReminder(self.reminders[indexPath.row])
             }
             
         }
@@ -117,33 +120,38 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         tableView.reloadData()
         
         if dueDateChanged {
-            deleteLocalNotification(reminder)
-            createLocalNotification(reminder)
+            deleteLocalNotificationForReminder(reminder.uuid as String?)
+            fillEmptySlotInNotificationQueue()
+            
+            // animate if cell shifted
         }
         
         //TODO: highlight row when return
     }
     
-    private func deleteReminderAtIndexPath(path: NSIndexPath) {
-        var style = UITableViewRowAnimation.Fade
-        
-        if reminders[path.row].oldIndexPath != nil {
-            style = UITableViewRowAnimation.Right
+    private func deleteReminder(rmd: Reminder) {
+        var path: NSIndexPath?
+        if let row = reminders.indexOf(rmd) {
+            path = NSIndexPath(forRow: row, inSection: 0)
         }
+        var style = UITableViewRowAnimation.Right
+        if rmd.oldIndexPath == nil {
+            style = UITableViewRowAnimation.Fade
+        }
+        let uuid = rmd.uuid as String?
         
-        deleteLocalNotification(reminders[path.row])
-        
-        managedObjectContext.deleteObject(reminders[path.row])
-        // Non-core data implementation :        reminders.removeAtIndex(row)
-        
+        managedObjectContext.deleteObject(rmd) // Non-core data implementation: reminders.removeAtIndex(row)
         fetchSortedReminders()
         saveReminders()
         
-        tableView.deleteRowsAtIndexPaths([path], withRowAnimation: style)
+        if path != nil {
+            tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: style)
+        }
+        deleteLocalNotificationForReminder(uuid)
+        fillEmptySlotInNotificationQueue()
     }
     
-    private func doneReminderAtRow(indexPath: NSIndexPath) {
-        let rmd = reminders[indexPath.row]
+    private func doneReminder(rmd: Reminder) {
         
         rmd.isDone? = NSNumber(bool: true)
         
@@ -156,7 +164,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             let oldIndexPath = rmd.oldIndexPath
             let dueDate = rmd.nextRecurringDate
             
-            deleteReminderAtIndexPath(indexPath)
+            deleteReminder(rmd)
             
             if let reminder = NSEntityDescription.insertNewObjectForEntityForName(Functionalities.Entity.Reminder, inManagedObjectContext: managedObjectContext) as? Reminder{
                 
@@ -173,7 +181,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             }
         } else {
             // TODO : Create a archive list to save all done reminders before deleting over here
-            deleteReminderAtIndexPath(indexPath)
+            deleteReminder(rmd)
         }
     }
 
@@ -226,7 +234,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             
-            deleteReminderAtIndexPath(indexPath)
+            deleteReminder(reminders[indexPath.row])
             // Non-core data execution          reminders.removeAtIndex(indexPath.row)
             
         } else if editingStyle == .Insert {
@@ -271,7 +279,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if let count = scheduledLocalNotifications?.count {
             
-            if count < 64 {
+            if count < Functionalities.Notification.ScheduleLimit {
             
                 // Create a corresponding local notification
                 let notification = UILocalNotification()
@@ -285,14 +293,38 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 
                 // if reminder is < 64th, schedule. Update when old ones are completed
                 UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                print("created notif: " + notification.alertBody!)
                 
             } else if let lastScheduledRmdNotif = scheduledLocalNotifications?[count - 1] {
                 if let lastScheduledRmdUserInfo = lastScheduledRmdNotif.userInfo {
-                    
                     for rmd in reminders {
                         if lastScheduledRmdUserInfo["uuid"] as! String == rmd.uuid {
-                            deleteLocalNotification(rmd)
-                            createLocalNotification(reminder)
+                            let scheduledRmd = rmd
+                            if let lastScheduledRmdDueDate = scheduledRmd.dueDate {
+                                
+                                if reminder.dueDate?.timeIntervalSinceDate(lastScheduledRmdDueDate) < 0 {
+                                    
+                                    deleteLocalNotificationForReminder(rmd.uuid as String?)
+                                    createLocalNotification(reminder)
+                                }
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func deleteLocalNotificationForReminder(UUID: String?) {
+        if UUID != nil {
+            if let scheduledNotifications = UIApplication.sharedApplication().scheduledLocalNotifications {
+                for notification in scheduledNotifications {
+                    if let userInfo = notification.userInfo {
+                        if userInfo["uuid"] as? String == UUID {
+                            UIApplication.sharedApplication().cancelLocalNotification(notification)
+                            print("cancelled notif: " + notification.alertBody!)
+                            
                             break
                         }
                     }
@@ -301,12 +333,19 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func deleteLocalNotification(reminder: Reminder) {
-        if let scheduledNotifications = UIApplication.sharedApplication().scheduledLocalNotifications {
-            for notification in scheduledNotifications {
-                if let userInfo = notification.userInfo {
-                    if userInfo["uuid"] as! String == reminder.uuid {
-                        UIApplication.sharedApplication().cancelLocalNotification(notification)
+    func fillEmptySlotInNotificationQueue() {
+        if reminders.count >= Functionalities.Notification.ScheduleLimit {
+            // TODO: shift [reminder] into class List. instead of having var reminders
+            
+            // find 64th non-dued in line to be scheduled
+            var i = 0
+            for rmd in reminders {
+                if rmd.dueDate?.timeIntervalSinceNow > 0 {
+                    
+                    i++;
+                    if i == Functionalities.Notification.ScheduleLimit {
+                        print("Fill slot with " + rmd.name! + " by: ")
+                        createLocalNotification(rmd)
                         break
                     }
                 }
@@ -317,12 +356,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
 
 // Other useful codes
 
-/* 
+/*
 Edit button
 self.navigationItem.leftBarButtonItem = self.editButtonItem()
 */
 
-/* 
+/*
 Plus sign button
 let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
 self.navigationItem.rightBarButtonItem = addButton

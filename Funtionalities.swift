@@ -26,6 +26,8 @@ class Functionalities {
     static let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
     struct Notification {
+        static let ScheduleLimit = 2
+        
         static let ScheduledNotificationDue = "aNotificationDue"
         static let ReminderDone = "reminderDone"
         
