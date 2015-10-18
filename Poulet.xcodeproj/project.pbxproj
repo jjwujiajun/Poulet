@@ -109,10 +109,10 @@
 		D787D4B41B2E83DA005D5603 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
 				D76C92AC1BA3C993005669E4 /* Funtionalities.swift */,
 				D732466F1BCB676A00E0D0B3 /* Notes */,
 				D787D4BF1B2E83DA005D5603 /* Images.xcassets */,
-				D787D4B61B2E83DA005D5603 /* AppDelegate.swift */,
 				D787D4C11B2E83DA005D5603 /* LaunchScreen.xib */,
 				D787D4B51B2E83DA005D5603 /* Info.plist */,
 			);

@@ -13,6 +13,8 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
+    // todo: create notificationCenter here
+    let notificationCenter = NSNotificationCenter.defaultCenter()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -28,13 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         // Notifications setup
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)) // types are UIUserNotificationType members
-
         
         return true
     }
 
     func applicationWillResignActive(application: UIApplication) {
-        application.applicationIconBadgeNumber = List.sharedInstance.dueRmdCount
+        let notification = NSNotification(name: Functionalities.Notification.ResigningActive, object: self, userInfo: nil)
+        notificationCenter.postNotification(notification)
         
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
@@ -50,6 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        // Refresh table data
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = NSNotification(name: Functionalities.Notification.RefreshTable, object: self, userInfo: nil)
+        notificationCenter.postNotification(notification)
+        
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -139,7 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         print("appDelegate received notification")
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        // todo: rename schedulednotificationdue, because it may not be
+        
         let notification = NSNotification(name: Functionalities.Notification.ScheduledNotificationDue, object: self, userInfo: notification.userInfo)
         notificationCenter.postNotification(notification)
     }
