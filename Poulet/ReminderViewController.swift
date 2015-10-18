@@ -32,7 +32,6 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     }
     
     var reminderFieldsWasEdited = false
-    var reminderOldDueDate: NSDate?
     
     var FunctionalitiesPeriod: [String] {
         get{
@@ -63,7 +62,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         reminderRecurLabel.userInteractionEnabled = true
         reminderRecurLabel.addGestureRecognizer(recurLabelTapped)
         
-        reminderOldDueDate = reminder?.dueDate
+        reminder?.oldDueDate = reminder?.dueDate
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -73,7 +72,10 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         
         if reminderFieldsWasEdited {
             if reminder != nil {
-                listViewController.didEditReminder(reminder!, dueDateChanged: (reminderOldDueDate != reminder!.dueDate))
+                if reminder!.oldDueDate == reminder!.dueDate {
+                    reminder!.oldDueDate = nil
+                }
+                listViewController.editedReminder = reminder!
             }
         }
     }
@@ -102,6 +104,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     }
     
     @IBAction func datePicketValueChanged(sender: UIDatePicker) {
+        
         if let rmd = reminder {
             rmd.dueDate = sender.date
             reminderDateLabel?.text = Functionalities.dateFormatter(sender.date)

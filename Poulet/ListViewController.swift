@@ -16,11 +16,14 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     private var reminders = [Reminder]()
     
+    // viewDidAppear animations
     var newReminder: Reminder?
     // How animation will work when reminder is newly added
     // fetchSortedReminders() in viewWillAppear
     // saveReminders() in viewWillAppear, not in viewDidAppear bc list could change when user completed reminder from notification
     // newlyAddedReminder pointer is nil-ed after viewDidAppear
+    
+    var editedReminder: Reminder?
 
     @IBAction func addReminder(sender: UIBarButtonItem) {
     }
@@ -76,7 +79,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //TODO: investigate how to reload data when return from homescreen
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -90,17 +93,18 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             
             newReminder = nil
         }
+        
+        if editedReminder != nil {
+            editReminder(editedReminder!)
+            editedReminder = nil
+        }
     }
     
     func animateInsertRmdIntoList(reminder: Reminder) {
         if let row = reminders.indexOf(reminder) { // will not work if did not call fetchSortedReminders()
             let insertIndex = NSIndexPath(forRow: row, inSection: 0)
             
-            var style = UITableViewRowAnimation.Right
-            if row == reminder.oldIndexPath?.row {
-                style = UITableViewRowAnimation.Fade
-            }
-            tableView.insertRowsAtIndexPaths([insertIndex], withRowAnimation: style)
+            tableView.insertRowsAtIndexPaths([insertIndex], withRowAnimation: .Right)
         }
     }
     
@@ -109,23 +113,37 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         fetchSortedReminders()
         saveReminders()
         
-        createLocalNotification(reminder)
-        
+        let thisFuncIsPartOfShiftingProcess = reminder.oldDueDate != nil
+        if !thisFuncIsPartOfShiftingProcess {
+            createLocalNotification(reminder)
+        }
         animateInsertRmdIntoList(reminder)
     }
     
-    func didEditReminder(reminder: Reminder, dueDateChanged: Bool) {
-        fetchSortedReminders()
-        saveReminders()
-        tableView.reloadData()
-        
-        if dueDateChanged {
-            deleteLocalNotificationForReminder(reminder.uuid as String?)
-            fillEmptySlotInNotificationQueue()
+    func editReminder(reminder: Reminder) {
+        if let oldRow = reminders.indexOf(reminder) {
             
-            // animate if cell shifted
+            let previousRow = oldRow - 1
+            let rmdHasMovedUp = previousRow >= 0 &&
+                reminder.dueDate?.timeIntervalSinceDate(reminders[previousRow].dueDate!) < 0
+            
+            let nextRow = oldRow + 1
+            let rmdHasMovedDown = nextRow < reminders.count &&
+                reminder.dueDate?.timeIntervalSinceDate(reminders[nextRow].dueDate!) > 0
+            
+            if rmdHasMovedUp || rmdHasMovedDown {
+                shiftReminder(reminder, toPositionForDate: reminder.dueDate!) // handlesNotification changes
+                reminder.oldDueDate = nil
+            } else {
+                fetchSortedReminders()
+                saveReminders()
+                tableView.reloadData()
+                if reminder.oldDueDate != reminder.dueDate {
+                    deleteLocalNotificationForReminder(reminder.uuid as String?)
+                    fillEmptySlotInNotificationQueue()
+                }
+            }
         }
-        
         //TODO: highlight row when return
     }
     
@@ -134,10 +152,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         if let row = reminders.indexOf(rmd) {
             path = NSIndexPath(forRow: row, inSection: 0)
         }
-        var style = UITableViewRowAnimation.Right
-        if rmd.oldIndexPath == nil {
-            style = UITableViewRowAnimation.Fade
-        }
+        let thisFuncIsPartOfShiftingProcess = rmd.oldDueDate != nil
+         
         let uuid = rmd.uuid as String?
         
         managedObjectContext.deleteObject(rmd) // Non-core data implementation: reminders.removeAtIndex(row)
@@ -145,10 +161,14 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         saveReminders()
         
         if path != nil {
-            tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: style)
+            if thisFuncIsPartOfShiftingProcess {
+                tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: .Right)
+            } else {
+                tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: .Fade)
+                deleteLocalNotificationForReminder(uuid)
+                fillEmptySlotInNotificationQueue()
+            }
         }
-        deleteLocalNotificationForReminder(uuid)
-        fillEmptySlotInNotificationQueue()
     }
     
     private func doneReminder(rmd: Reminder) {
@@ -156,33 +176,47 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         rmd.isDone? = NSNumber(bool: true)
         
         if rmd.isRecurring?.boolValue ?? false {
-            
-            let name = rmd.name
             let isRecurring = rmd.isRecurring
             let recurrenceCycleQty = rmd.recurrenceCycleQty
             let recurrenceCycleUnit = rmd.recurrenceCycleUnit
-            let oldIndexPath = rmd.oldIndexPath
-            let dueDate = rmd.nextRecurringDate
             
-            deleteReminder(rmd)
-            
-            if let reminder = NSEntityDescription.insertNewObjectForEntityForName(Functionalities.Entity.Reminder, inManagedObjectContext: managedObjectContext) as? Reminder{
-                
-                reminder.name = name
-                reminder.uuid = NSUUID().UUIDString
-                reminder.isRecurring = isRecurring
-                reminder.recurrenceCycleQty = recurrenceCycleQty
-                reminder.recurrenceCycleUnit = recurrenceCycleUnit
-                reminder.oldIndexPath = oldIndexPath
-                reminder.dueDate = dueDate
-                reminder.updateNextRecurringDueDate()
-                
-                insertNewReminder(reminder)
+            if let newRmd = shiftReminder(rmd, toPositionForDate: rmd.nextRecurringDate!) {
+                newRmd.isRecurring = isRecurring
+                newRmd.recurrenceCycleQty = recurrenceCycleQty
+                newRmd.recurrenceCycleUnit = recurrenceCycleUnit
+                newRmd.updateNextRecurringDueDate()
             }
+
         } else {
             // TODO : Create a archive list to save all done reminders before deleting over here
             deleteReminder(rmd)
         }
+    }
+    
+    private func shiftReminder(rmd:Reminder, toPositionForDate finalDate: NSDate) -> Reminder? {
+        
+        let name = rmd.name
+        let oldDueDate = rmd.oldDueDate
+        let dueDate = finalDate
+        let uuid = rmd.uuid
+        
+        deleteReminder(rmd)
+        
+        if let reminder = NSEntityDescription.insertNewObjectForEntityForName(Functionalities.Entity.Reminder, inManagedObjectContext: managedObjectContext) as? Reminder{
+            
+            reminder.name = name
+            reminder.uuid = NSUUID().UUIDString
+            reminder.oldDueDate = oldDueDate
+            reminder.dueDate = dueDate
+            
+            insertNewReminder(reminder)
+            
+            deleteLocalNotificationForReminder(uuid as String?)
+            fillEmptySlotInNotificationQueue()
+            
+            return reminder
+        }
+        return nil
     }
 
     // MARK: - Segues
