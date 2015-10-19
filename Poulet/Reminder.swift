@@ -30,6 +30,7 @@ class Reminder: NSManagedObject {
     }
     
     func updateNextRecurringDueDate() {
+
         let quantity = Double(recurrenceCycleQty ?? 0)
         let unit = Functionalities.Time.unitsArray[Int(recurrenceCycleUnit ?? 0)]
         
@@ -40,7 +41,7 @@ class Reminder: NSManagedObject {
             } else {
                 nextRecurringDate = dueDate?.dateByAddingTimeInterval(timeToNextDueDate)
             }
-            print("due date: \(dueDate) next recur date: \(nextRecurringDate)")
+            print(nextRecurringDate)
             isRecurring = true
         } else {
             isRecurring = false

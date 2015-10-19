@@ -46,7 +46,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         let FN = Functionalities.Notification.self
         center.addObserverForName(FN.EnterAppByNotification, object: nil, queue: queue) { notif in print("EnterAppByNotification") }
         center.addObserverForName(FN.RefreshTable, object: nil, queue: queue) { notif in self.tableView.reloadData() }
-        center.addObserverForName(FN.ResigningActive, object: nil, queue: queue) { notif in self.notifyAppResigningActive(notif) }
+        center.addObserverForName(FN.ResigningActive, object: nil, queue: queue) { notif in
+            self.notifyAppResigningActive(notif) }
         center.addObserverForName(FN.ReminderDone, object: nil, queue: queue) { notif in self.notifyReminderDone(notif) }
         center.addObserverForName(FN.ReminderPostpone, object: nil, queue: queue) { notif in self.notifyReminderPostpone(notif) }
     
@@ -166,7 +167,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    // TODO: this function
     private func postponeReminder(rmd: Reminder, byTimeInterval time: NSTimeInterval) {
         
         if rmd.dueDate?.timeIntervalSinceNow < -1 && rmd.dueDate?.timeIntervalSinceNow < -time {
@@ -174,6 +174,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         } else {
             rmd.dueDate = rmd.dueDate?.dateByAddingTimeInterval(time)
         }
+        rmd.updateNextRecurringDueDate()
         editReminder(rmd)
     }
     
@@ -289,9 +290,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             }
         } catch {
             abort()
-        }
-        for rmd in reminders {
-            print("\(rmd.isRecurring) \(rmd.recurrenceCycleQty) \(rmd.recurrenceCycleUnit)")
         }
     }
     
