@@ -35,7 +35,12 @@ class Reminder: NSManagedObject {
         
         let timeToNextDueDate = quantity * unit
         if timeToNextDueDate > 0 {
-            nextRecurringDate = NSDate(timeInterval: timeToNextDueDate, sinceDate: dueDate ?? NSDate() )
+            if dueDate?.timeIntervalSinceNow < -1 && dueDate?.timeIntervalSinceNow < -timeToNextDueDate {
+                nextRecurringDate = NSDate().dateByAddingTimeInterval(timeToNextDueDate)
+            } else {
+                nextRecurringDate = dueDate?.dateByAddingTimeInterval(timeToNextDueDate)
+            }
+            print("due date: \(dueDate) next recur date: \(nextRecurringDate)")
             isRecurring = true
         } else {
             isRecurring = false

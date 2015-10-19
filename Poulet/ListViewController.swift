@@ -13,6 +13,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
 
     private var detailViewController: ReminderViewController? = nil
     private let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    private let application = UIApplication.sharedApplication()
     
     private var reminders = [Reminder]()
     var newReminder: Reminder?
@@ -32,9 +33,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        UIApplication.sharedApplication().scheduledLocalNotifications?.removeAll()
-        print("Scheduled LocalNotif : \(UIApplication.sharedApplication().scheduledLocalNotifications?.count ?? 0)")
+        print("Scheduled LocalNotif : \(application.scheduledLocalNotifications?.count ?? 0)")
         
         // TODO: Refresh table every 1 minute/"n" seconds (Use NSFetchedResultsController for notifying tabableview when datachanges?)
         
@@ -42,58 +41,14 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         fetchSortedReminders()
         
         // Set up notification center
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let center = NSNotificationCenter.defaultCenter()
         let queue = NSOperationQueue.mainQueue()
-        
-        // TODO: shift all notification codes to below in VC file
-        
-        notificationCenter.addObserverForName(Functionalities.Notification.EnterAppByNotification, object: nil, queue: queue) { notification in
-            print("ListVC received notification")
-            if let userInfo = notification.userInfo {
-                // TODO: scroll to and highlight reminder that was tapped in by notification
-                print(userInfo["uuid"])
-            }
-        }
-        
-        notificationCenter.addObserverForName(Functionalities.Notification.RefreshTable, object: nil, queue: queue) { notification in
-            self.tableView.reloadData()
-        }
-        
-        notificationCenter.addObserverForName(Functionalities.Notification.ResigningActive, object: nil, queue: queue) { notification in
-            var dueRmdCount = 0
-            for rmd in self.reminders {
-                if rmd.dueDate?.timeIntervalSinceNow <= 0 {
-                    dueRmdCount += 1
-                } else {
-                    break
-                }
-            }
-            UIApplication.sharedApplication().applicationIconBadgeNumber = dueRmdCount
-        }
-        
-        // TODO: code for reminder done from notification
-        notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
-            if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
-                // TODO: change reminders core data into a dictionary of [UUID: Reminder] pair
-                for rmd in self.reminders {
-                    if rmd.uuid == uuid {
-                        self.doneReminder(rmd)
-                    }
-                }
-            }
-        }
-        
-        notificationCenter.addObserverForName(Functionalities.Notification.ReminderPostpone, object: nil, queue: queue) { notification in
-            if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
-                for rmd in self.reminders {
-                    if rmd.uuid == uuid {
-                        // TODO: reminder should postpone 1 hr from now is reminder was dued > 1 hr ago.
-                        rmd.dueDate = rmd.dueDate?.dateByAddingTimeInterval(1 * Functionalities.Time.Hour)
-                        self.editReminder(rmd)
-                    }
-                }
-            }
-        }
+        let FN = Functionalities.Notification.self
+        center.addObserverForName(FN.EnterAppByNotification, object: nil, queue: queue) { notif in print("EnterAppByNotification") }
+        center.addObserverForName(FN.RefreshTable, object: nil, queue: queue) { notif in self.tableView.reloadData() }
+        center.addObserverForName(FN.ResigningActive, object: nil, queue: queue) { notif in self.notifyAppResigningActive(notif) }
+        center.addObserverForName(FN.ReminderDone, object: nil, queue: queue) { notif in self.notifyReminderDone(notif) }
+        center.addObserverForName(FN.ReminderPostpone, object: nil, queue: queue) { notif in self.notifyReminderPostpone(notif) }
     
         // Set up display
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
@@ -149,17 +104,18 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             if rmdHasMovedUp || rmdHasMovedDown {
                 shiftReminder(reminder, toPositionForDate: reminder.dueDate!) // handlesNotification changes
                 reminder.oldDueDate = nil
+                fetchSortedReminders()
             } else {
                 fetchSortedReminders()
-                saveReminders()
                 tableView.reloadData()
                 if reminder.oldDueDate != reminder.dueDate {
                     deleteLocalNotificationForReminder(reminder.uuid as String?)
                     fillEmptySlotInNotificationQueue()
                 }
             }
+            saveReminders()
         }
-        // TODO: notification.repeatInterval allows snoozing to work * Note
+        // TODO: notification.repeatInterval to make snooze * Note
         // Note: this may affect applicationIconBadgeCount if it keeps firing
     }
     
@@ -184,7 +140,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 deleteLocalNotificationForReminder(uuid)
                 fillEmptySlotInNotificationQueue()
             }
-            UIApplication.sharedApplication().applicationIconBadgeNumber -= 1
+            application.applicationIconBadgeNumber -= 1
         }
     }
     
@@ -208,6 +164,17 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             // TODO: Create an archive list to save all done reminders before deleting over here
             deleteReminder(rmd)
         }
+    }
+    
+    // TODO: this function
+    private func postponeReminder(rmd: Reminder, byTimeInterval time: NSTimeInterval) {
+        
+        if rmd.dueDate?.timeIntervalSinceNow < -1 && rmd.dueDate?.timeIntervalSinceNow < -time {
+            rmd.dueDate = NSDate().dateByAddingTimeInterval(time)
+        } else {
+            rmd.dueDate = rmd.dueDate?.dateByAddingTimeInterval(time)
+        }
+        editReminder(rmd)
     }
     
     private func animateInsertRmdIntoList(reminder: Reminder) {
@@ -323,6 +290,9 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         } catch {
             abort()
         }
+        for rmd in reminders {
+            print("\(rmd.isRecurring) \(rmd.recurrenceCycleQty) \(rmd.recurrenceCycleUnit)")
+        }
     }
     
     private func saveReminders() {
@@ -334,8 +304,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     // MARK: - Local Notifications
-    func createLocalNotification(reminder: Reminder) {
-        let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
+    private func createLocalNotification(reminder: Reminder) {
+        let scheduledLocalNotifications = application.scheduledLocalNotifications
         if let count = scheduledLocalNotifications?.count {
             
             if count < Functionalities.Notification.ScheduleLimit {
@@ -349,10 +319,10 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 
                 notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
                 notification.category = Functionalities.Notification.Category_ToDo
-                notification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                notification.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
                 
                 // if reminder is < 64th, schedule. Update when old ones are completed
-                UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                application.scheduleLocalNotification(notification)
                 print("created notif: " + notification.alertBody!)
                 
             } else if let lastScheduledRmdNotif = scheduledLocalNotifications?[count - 1] {
@@ -376,13 +346,13 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func deleteLocalNotificationForReminder(UUID: String?) {
+    private func deleteLocalNotificationForReminder(UUID: String?) {
         if UUID != nil {
-            if let scheduledNotifications = UIApplication.sharedApplication().scheduledLocalNotifications {
+            if let scheduledNotifications = application.scheduledLocalNotifications {
                 for notification in scheduledNotifications {
                     if let userInfo = notification.userInfo {
                         if userInfo[Functionalities.Notification.ReminderUUID] as? String == UUID {
-                            UIApplication.sharedApplication().cancelLocalNotification(notification)
+                            application.cancelLocalNotification(notification)
                             print("cancelled notif: " + notification.alertBody!)
                             
                             break
@@ -393,24 +363,55 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    func fillEmptySlotInNotificationQueue() {
-//        if reminders.count >= Functionalities.Notification.ScheduleLimit {
-            // TODO: shift [reminder] into class List. instead of having var reminders
-            
-            // find 64th non-dued in line to be scheduled
-            var i = 0
-            for rmd in reminders {
-                if rmd.dueDate?.timeIntervalSinceNow > 0 {
-                    
-                    i++;
-                    if i == Functionalities.Notification.ScheduleLimit || i == reminders.count {
-                        print("Fill slot with " + rmd.name! + " by: ")
-                        createLocalNotification(rmd)
-                        break
-                    }
+    private func fillEmptySlotInNotificationQueue() {
+        // TODO: shift [reminder] into class List. instead of having var reminders
+        
+        // find 64th non-dued in line to be scheduled
+        var i = 0
+        for rmd in reminders {
+            if rmd.dueDate?.timeIntervalSinceNow > 0 {
+                
+                i++;
+                if i == Functionalities.Notification.ScheduleLimit || i == reminders.count {
+                    print("Fill slot with " + rmd.name! + " by: ")
+                    createLocalNotification(rmd)
+                    break
                 }
             }
-//        }
+        }
+    }
+    
+    private func notifyReminderDone(notification: NSNotification) {
+        if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
+            // TODO: change reminders core data into a dictionary of [UUID: Reminder] pair
+            for rmd in self.reminders {
+                if rmd.uuid == uuid {
+                    self.doneReminder(rmd)
+                }
+            }
+        }
+    }
+    
+    private func notifyReminderPostpone(notification: NSNotification) {
+        if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
+            for rmd in self.reminders {
+                if rmd.uuid == uuid {
+                    postponeReminder(rmd, byTimeInterval:1 * Functionalities.Time.Hour)
+                }
+            }
+        }
+    }
+    
+    private func notifyAppResigningActive(notification: NSNotification) {
+        var dueRmdCount = 0
+        for rmd in self.reminders {
+            if rmd.dueDate?.timeIntervalSinceNow <= 0 {
+                dueRmdCount += 1
+            } else {
+                break
+            }
+        }
+        application.applicationIconBadgeNumber = dueRmdCount
     }
 }
 

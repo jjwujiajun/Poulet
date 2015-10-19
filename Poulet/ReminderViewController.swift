@@ -76,6 +76,8 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
             if reminder != nil {
                 if reminder!.oldDueDate == reminder!.dueDate {
                     reminder!.oldDueDate = nil
+                } else {
+                    reminder!.updateNextRecurringDueDate()
                 }
                 listViewController.editedReminder = reminder!
             }
