@@ -13,7 +13,6 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
-    // todo: create notificationCenter here
     let notificationCenter = NSNotificationCenter.defaultCenter()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -28,8 +27,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         }
         splitViewController.delegate = self
         
-        // Notifications setup
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)) // types are UIUserNotificationType members
+        // *** Notifications setup ***
+        // Actions setup
+        let completeAction = UIMutableUserNotificationAction()
+        completeAction.identifier = Functionalities.Notification.Action_Complete
+        completeAction.title = "Done"
+        completeAction.activationMode = UIUserNotificationActivationMode.Background // don't bring app to foreground
+        completeAction.authenticationRequired = false // don't require unlocking phone to perform action
+        completeAction.destructive = true // display action in red
+        
+        let remindAction = UIMutableUserNotificationAction()
+        remindAction.identifier = Functionalities.Notification.Action_Remind
+        remindAction.title = "+ 1 hour"
+        remindAction.activationMode = .Background
+        //remindAction.authenticationRequired = false
+        remindAction.destructive = false
+        
+        // Category setup, set actions to category
+        let reminderCategory = UIMutableUserNotificationCategory()
+        reminderCategory.identifier = Functionalities.Notification.Category_ToDo
+        reminderCategory.setActions([completeAction, remindAction], forContext: .Default) // For popup notification's list of actions // Max 4
+        reminderCategory.setActions([completeAction, remindAction], forContext: .Minimal) // For Notification from top OR lockscreen. // Max 2
+        
+        // Register notification use. Set catergory in registration
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: [reminderCategory])) // types are UIUserNotificationType members
         
         return true
     }
@@ -54,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         // Refresh table data
-        let notificationCenter = NSNotificationCenter.defaultCenter()
         let notification = NSNotification(name: Functionalities.Notification.RefreshTable, object: self, userInfo: nil)
         notificationCenter.postNotification(notification)
         
@@ -143,17 +163,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
     
     // MARK: - Local Notification
-    //Not the correct appDelegate func to trigger .AppLaunchedThryNotif
+    // See application(didFinishLaunching:withOptions) for notification setup steps
+    
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         print("appDelegate received notification")
         
-        // todo: rename schedulednotificationdue, because it may not be
+        // TODO: rename schedulednotificationdue, because it may not be
         
-        let notification = NSNotification(name: Functionalities.Notification.ScheduledNotificationDue, object: self, userInfo: notification.userInfo)
+        let notification = NSNotification(name: Functionalities.Notification.EnterAppByNotification, object: self, userInfo: notification.userInfo)
         notificationCenter.postNotification(notification)
     }
     
-    // See application(didFinishLaunching:withOptions) for notification setup step
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        
+        var notificationName: String?
+        
+        switch identifier! {
+        case Functionalities.Notification.Action_Complete:
+            notificationName = Functionalities.Notification.ReminderDone
+        case Functionalities.Notification.Action_Remind:
+            notificationName = Functionalities.Notification.ReminderPostpone
+        default:
+            print("appDelegate handleActionWithIdentifier has no known identifier.")
+        }
+        if notificationName != nil {
+            let notification = NSNotification(name: notificationName!, object: self, userInfo: notification.userInfo)
+            notificationCenter.postNotification(notification)
+        }
+        completionHandler()
+    }
 
 }
 

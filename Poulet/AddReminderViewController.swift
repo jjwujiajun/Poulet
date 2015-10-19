@@ -11,13 +11,7 @@ import CoreData
 
 class AddReminderViewController: UIViewController, UITextFieldDelegate {
     
-    struct Time {
-        static let Minute = Functionalities.Time.Minute
-        static let Hour = Functionalities.Time.Hour
-        static let Day = Functionalities.Time.Day
-        static let Week = Functionalities.Time.Week
-    }
-
+    // MARK: - View Outlets
     @IBOutlet weak var inputField: UITextField!
     
     @IBOutlet weak var timeLabel: UILabel!
@@ -39,7 +33,15 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    // MARK: - Logic properties
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
+    struct Time {
+        static let Minute = Functionalities.Time.Minute
+        static let Hour = Functionalities.Time.Hour
+        static let Day = Functionalities.Time.Day
+        static let Week = Functionalities.Time.Week
+    }
     
     private var timeLabelDate = NSDate() {
         didSet {
@@ -153,6 +155,8 @@ class AddReminderViewController: UIViewController, UITextFieldDelegate {
         addButtonIsEnabled = false
         datePicker.minimumDate = NSDate()
         datePicker.date = NSDate(timeIntervalSinceNow: 11 * Time.Minute)
+        
+        // TODO: Date Picker's initial value does not match date label value
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)

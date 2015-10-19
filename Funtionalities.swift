@@ -26,14 +26,24 @@ class Functionalities {
     static let Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
     struct Notification {
+        
         static let ScheduleLimit = 64
         
+        // notification registration
+        static let Category_ToDo = "TODO_CATEGORY"
+        static let Action_Complete = "COMPLETE_TODO"
+        static let Action_Remind = "REMIND_TODO"
+        
+        // notification names
         static let AppStartUp = "appStartUp"
-        static let ScheduledNotificationDue = "aNotificationDue"
+        static let EnterAppByNotification = "enterAppByNotification"
         static let ReminderDone = "reminderDone"
+        static let ReminderPostpone = "reminderPostpone"
         static let ResigningActive = "resigningActive"
         static let RefreshTable = "refreshTable"
         
+        // notification user info keys
+        static let ReminderUUID = "reminderUUID"
         static let CellIndexPath = "cellIndexPath"
     }
     
@@ -48,6 +58,7 @@ class Functionalities {
         static let darkOrange = UIColor(red: 204/255, green: 153/255, blue: 0, alpha: 1)
     }
     
+    // TODO: format dates properly near 0 minute
     static func dateFormatter(timeLabelDate: NSDate) -> String {
         var dateString: String? = ""
         if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {

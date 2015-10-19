@@ -10,14 +10,14 @@ import UIKit
 
 class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    // TODO: Let view be expandable just like native cal app
+    
     struct Picker {
         static let QuantityComponent = 0
         static let UnitsComponent = 1
     }
     
-    var listViewController = ListViewController()
-    var reminderIndexPathInListView = NSIndexPath()
-    
+    // MARK: - View Outlets
     @IBOutlet weak var reminderFieldsTable: UITableView!
     @IBOutlet weak var reminderNameLabel: UITextField!
     @IBOutlet weak var reminderDateLabel: UILabel!
@@ -25,14 +25,15 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     @IBOutlet weak var reminderRecurLabel: UILabel!
     @IBOutlet weak var recurrencePicker: UIPickerView!
     
+    // MARK: - Logic properties
+    var listViewController = ListViewController()
+    var reminderIndexPathInListView = NSIndexPath()
+    var reminderFieldsWasEdited = false
     var reminder: Reminder? {
         didSet {
             self.configureView()
         }
     }
-    
-    var reminderFieldsWasEdited = false
-    
     var FunctionalitiesPeriod: [String] {
         get{
             if let rmd = reminder {
@@ -44,6 +45,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         }
     }
     
+    // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,7 +81,9 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
             }
         }
     }
-
+    
+    
+    // MARK: - Class functions
     func configureView() {
         // Update the user interface for the detail item.
         if let rmd = reminder {
