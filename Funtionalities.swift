@@ -44,7 +44,6 @@ class Functionalities {
         
         // notification user info keys
         static let ReminderUUID = "reminderUUID"
-        static let CellIndexPath = "cellIndexPath"
     }
     
     struct Entity {

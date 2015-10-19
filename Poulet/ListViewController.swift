@@ -73,10 +73,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         
         // TODO: code for reminder done from notification
         notificationCenter.addObserverForName(Functionalities.Notification.ReminderDone, object: nil, queue: queue) { notification in
-            // TODO: change remindertableviewcell's notification user info from cellindexpath to reminder uuid
-            if let indexPath = notification.userInfo?[Functionalities.Notification.CellIndexPath] as? NSIndexPath {
-                self.doneReminder(self.reminders[indexPath.row])
-            } else if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
+            if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
                 // TODO: change reminders core data into a dictionary of [UUID: Reminder] pair
                 for rmd in self.reminders {
                     if rmd.uuid == uuid {

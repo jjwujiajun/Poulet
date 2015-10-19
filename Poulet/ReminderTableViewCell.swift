@@ -28,9 +28,6 @@ class ReminderTableViewCell: UITableViewCell {
     }
     
     var tableView = UITableView()
-    var cellIndexPath: NSIndexPath {
-            return tableView.indexPathForCell(self) ?? NSIndexPath(forRow: 0, inSection: 0)
-    }
     
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var dueDate: UILabel!
@@ -38,7 +35,7 @@ class ReminderTableViewCell: UITableViewCell {
     
     @IBAction func doneButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        let notification = NSNotification(name: Functionalities.Notification.ReminderDone, object: self, userInfo: [Functionalities.Notification.CellIndexPath: cellIndexPath])
+        let notification = NSNotification(name: Functionalities.Notification.ReminderDone, object: self, userInfo: [Functionalities.Notification.ReminderUUID: reminder?.uuid as! String])
         notificationCenter.postNotification(notification)
     }
     
