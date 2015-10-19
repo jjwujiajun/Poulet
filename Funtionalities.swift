@@ -57,7 +57,6 @@ class Functionalities {
         static let darkOrange = UIColor(red: 204/255, green: 153/255, blue: 0, alpha: 1)
     }
     
-    // TODO: format dates properly near 0 minute
     static func dateFormatter(timeLabelDate: NSDate) -> String {
         var dateString: String? = ""
         if let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian) {
@@ -65,21 +64,51 @@ class Functionalities {
             
             if timeFromNow < 0 {
                 dateString = "Due "
+            } else {
+                dateString = "In "
             }
             
             if abs(timeFromNow) < 2 * Time.Hour {
-                if timeFromNow > 0 {
-                    dateString = "In "
-                }
-                if Int(timeFromNow/Time.Hour) != 0 {
-                    dateString = dateString! + "\(Int(abs(timeFromNow)/Time.Hour)) hours "
-                    timeFromNow = timeFromNow%Time.Hour
-                }
-                if timeFromNow != 0 {
-                    dateString = dateString! + "\(Int(abs(timeFromNow)/Time.Minute)) minutes "
-                }
-                if timeFromNow < 0 {
-                    dateString? += "ago"
+                
+                let dateMinute = gregorian.component(.Minute, fromDate: timeLabelDate)
+                let nowMinute = gregorian.component(.Minute, fromDate: NSDate())
+                print("date: \(dateMinute)")
+                print("now: \(nowMinute)")
+                let minuteDifference = abs(dateMinute - nowMinute)
+                
+                if dateMinute == nowMinute {
+                    dateString = "Now"
+                } else if minuteDifference == 1 {
+                    if timeFromNow > 0 {
+                        dateString = "Less than a minute"
+                    } else {
+                        dateString? += "less than a minute ago"
+                    }
+                } else {
+                
+                    
+                    if Int(timeFromNow/Time.Hour) != 0 {
+                        dateString = dateString! + "\(Int(abs(timeFromNow)/Time.Hour)) hours "
+                        timeFromNow = timeFromNow%Time.Hour
+                    }
+                    if minuteDifference != 0 {
+                        if timeFromNow > 0 {
+                            if nowMinute < dateMinute {
+                                dateString = dateString! + "\(dateMinute - nowMinute) minutes "
+                            } else {
+                                dateString = dateString! + "\(60 + dateMinute - nowMinute) minutes "
+                            }
+                        } else {
+                            if nowMinute < dateMinute {
+                                dateString = dateString! + "\(60 + nowMinute - dateMinute ) minutes "
+                            } else {
+                                dateString = dateString! + "\(nowMinute - dateMinute) minutes "
+                            }
+                        }
+                    }
+                    if timeFromNow < 0 {
+                        dateString? += "ago"
+                    }
                 }
             } else {
                 let dateToday = gregorian.component(.Day, fromDate: NSDate())
