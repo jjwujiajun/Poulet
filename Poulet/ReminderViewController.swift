@@ -34,6 +34,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
             self.configureView()
         }
     }
+    var oldRmdNameLabel: String?
     var FunctionalitiesPeriod: [String] {
         get{
             if let rmd = reminder {
@@ -65,6 +66,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         reminderRecurLabel.addGestureRecognizer(recurLabelTapped)
         
         reminder?.oldDueDate = reminder?.dueDate
+        oldRmdNameLabel = reminder?.name
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -74,6 +76,10 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
         
         if reminderFieldsWasEdited {
             if reminder != nil {
+                
+                if reminder!.name?.characters.count == 0 {
+                    reminder!.name = oldRmdNameLabel
+                }
                 if reminder!.oldDueDate == reminder!.dueDate {
                     reminder!.oldDueDate = nil
                 } else {
