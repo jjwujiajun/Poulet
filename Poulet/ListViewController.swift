@@ -159,6 +159,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 newRmd.recurrenceCycleQty = recurrenceCycleQty
                 newRmd.recurrenceCycleUnit = recurrenceCycleUnit
                 newRmd.updateNextRecurringDueDate()
+                
+                if let row = reminders.indexOf(newRmd) {
+                    let indexPath = NSIndexPath(forRow: row, inSection: 0)
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                }
             }
 
         } else {

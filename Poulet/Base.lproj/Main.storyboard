@@ -97,7 +97,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="216.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" restorationIdentifier="dueDatePicker" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xoL-8O-LfJ">
+                                                <datePicker contentMode="scaleToFill" misplaced="YES" restorationIdentifier="dueDatePicker" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xoL-8O-LfJ">
                                                     <rect key="frame" x="43" y="19" width="514" height="180"/>
                                                     <animations/>
                                                     <date key="date" timeIntervalSinceReferenceDate="463722247.74462402">
@@ -110,11 +110,19 @@
                                             </subviews>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstItem="xoL-8O-LfJ" firstAttribute="centerY" secondItem="YwC-Cw-K6k" secondAttribute="centerY" id="1Xd-oi-Vrr"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="xoL-8O-LfJ" secondAttribute="bottom" constant="9.5" id="1wC-Ts-SVw"/>
                                                 <constraint firstItem="xoL-8O-LfJ" firstAttribute="leading" secondItem="YwC-Cw-K6k" secondAttribute="leadingMargin" constant="35" id="3fs-gn-1vx"/>
                                                 <constraint firstItem="xoL-8O-LfJ" firstAttribute="top" secondItem="YwC-Cw-K6k" secondAttribute="topMargin" constant="11" id="LLM-7B-2h0"/>
                                                 <constraint firstItem="xoL-8O-LfJ" firstAttribute="centerX" secondItem="YwC-Cw-K6k" secondAttribute="centerX" id="QDr-Ab-CXZ"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="1wC-Ts-SVw"/>
+                                                    <exclude reference="3fs-gn-1vx"/>
+                                                    <exclude reference="LLM-7B-2h0"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
@@ -165,12 +173,14 @@
                                             <animations/>
                                             <constraints>
                                                 <constraint firstItem="BkM-bW-R4A" firstAttribute="centerX" secondItem="4Gk-Bt-z4b" secondAttribute="centerX" id="Op8-7q-piS"/>
-                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="leading" secondItem="4Gk-Bt-z4b" secondAttribute="leadingMargin" constant="35" id="Uaj-SH-VkG"/>
-                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="top" secondItem="4Gk-Bt-z4b" secondAttribute="topMargin" constant="-23" id="UoB-GT-hua"/>
+                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="leading" secondItem="4Gk-Bt-z4b" secondAttribute="leadingMargin" id="Uaj-SH-VkG"/>
+                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="top" secondItem="4Gk-Bt-z4b" secondAttribute="topMargin" id="UoB-GT-hua"/>
+                                                <constraint firstItem="BkM-bW-R4A" firstAttribute="centerY" secondItem="4Gk-Bt-z4b" secondAttribute="centerY" id="n6E-Vo-fAm"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="Uaj-SH-VkG"/>
+                                                    <exclude reference="UoB-GT-hua"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -229,15 +239,15 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="75.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItG-Sy-4lE">
-                                            <rect key="frame" x="18" y="8" width="514.5" height="30"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItG-Sy-4lE">
+                                            <rect key="frame" x="18" y="8" width="515" height="30"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Er6-Q2-6ne">
-                                            <rect key="frame" x="532.5" y="8" width="59.5" height="59.5"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Er6-Q2-6ne">
+                                            <rect key="frame" x="533" y="8" width="60" height="60"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Er6-Q2-6ne" secondAttribute="height" multiplier="1:1" id="Wpk-fN-DKA"/>
@@ -248,33 +258,55 @@
                                                 <action selector="doneButtonPressed:" destination="WCw-Qf-5nD" eventType="touchUpInside" id="pJJ-nW-f1f"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyB-wV-ku5">
-                                            <rect key="frame" x="18" y="47" width="514.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="dueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyB-wV-ku5">
+                                            <rect key="frame" x="18" y="47" width="515" height="21"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="24" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMv-Du-EoW">
+                                            <rect key="frame" x="533" y="4.5" width="60" height="65"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="42" id="9Wc-Fc-Uci"/>
+                                                <constraint firstAttribute="width" secondItem="gMv-Du-EoW" secondAttribute="height" multiplier="19:21" constant="1" id="Wn0-zw-VBH"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="9Wc-Fc-Uci"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
                                     </subviews>
                                     <animations/>
                                     <constraints>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="top" secondItem="ItG-Sy-4lE" secondAttribute="bottom" id="1ti-wS-3V2"/>
+                                        <constraint firstItem="gMv-Du-EoW" firstAttribute="centerX" secondItem="Er6-Q2-6ne" secondAttribute="centerX" id="4W1-8e-JTc"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="RyB-wV-ku5" secondAttribute="bottom" id="BPt-EC-B3n"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="leading" secondItem="RyB-wV-ku5" secondAttribute="trailing" id="Bew-w3-6Zb"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="RyB-wV-ku5" secondAttribute="bottom" id="Fua-H7-Cgd"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="trailing" secondItem="37f-cq-3Eg" secondAttribute="trailingMargin" id="JVC-eT-7wz"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="gMv-Du-EoW" secondAttribute="trailing" constant="9" id="KAC-MK-6em"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="Mbi-3Q-ovk"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="bottom" secondItem="37f-cq-3Eg" secondAttribute="bottomMargin" id="QaA-Gm-q3M"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="ItG-Sy-4lE" secondAttribute="leading" constant="-5" id="Tez-pz-gkp"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="Ueq-EP-KMd"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="Y1Q-Vz-Of3"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="trailing" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="c68-3J-UJD"/>
+                                        <constraint firstItem="gMv-Du-EoW" firstAttribute="centerY" secondItem="Er6-Q2-6ne" secondAttribute="centerY" constant="-1" id="cGB-kb-PZV"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="leading" id="eXS-F9-6zI"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="fuU-Bx-zLa"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ItG-Sy-4lE" secondAttribute="trailing" constant="50" id="hcP-2u-Xgo"/>
+                                        <constraint firstItem="gMv-Du-EoW" firstAttribute="width" secondItem="Er6-Q2-6ne" secondAttribute="width" id="hsU-iU-w8t"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="i9T-KK-IYU"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="lML-Id-GR5"/>
+                                        <constraint firstItem="gMv-Du-EoW" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" constant="19" id="nGQ-4G-zgA"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="tTu-ZR-vNb"/>
+                                        <constraint firstItem="gMv-Du-EoW" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="trailing" constant="8" symbolic="YES" id="wdN-Tp-T2w"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -286,6 +318,9 @@
                                             <exclude reference="Y1Q-Vz-Of3"/>
                                             <exclude reference="c68-3J-UJD"/>
                                             <exclude reference="eXS-F9-6zI"/>
+                                            <exclude reference="KAC-MK-6em"/>
+                                            <exclude reference="nGQ-4G-zgA"/>
+                                            <exclude reference="wdN-Tp-T2w"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -295,6 +330,7 @@
                                     <outlet property="doneButton" destination="Er6-Q2-6ne" id="Sqy-Rs-Jgz"/>
                                     <outlet property="dueDate" destination="RyB-wV-ku5" id="Bzi-fy-7EC"/>
                                     <outlet property="name" destination="ItG-Sy-4lE" id="XiG-6X-tmp"/>
+                                    <outlet property="recurIntegerLabel" destination="gMv-Du-EoW" id="Q6V-k8-qvY"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showReminder" id="6S0-TO-JiA"/>
                                 </connections>
                             </tableViewCell>

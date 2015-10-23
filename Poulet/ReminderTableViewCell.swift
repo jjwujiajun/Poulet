@@ -22,7 +22,33 @@ class ReminderTableViewCell: UITableViewCell {
                 if let rmdDueDate = rmd.dueDate {
                     dueDate?.text = Functionalities.dateFormatter(rmdDueDate)
                 }
-                
+                recurIntegerLabel.text = ""
+                if rmd.isRecurring == 1{
+                    doneButton.imageView?.image = UIImage(named: "ReminderRecurButton")
+                    if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Day) {
+                        if rmd.recurrenceCycleQty == 1 {
+                            recurIntegerLabel.text = "24"
+                        } else {
+                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                        }
+                    } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Week) {
+                        if rmd.recurrenceCycleQty == 1 {
+                            recurIntegerLabel.text = "7"
+                        } else {
+                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                        }
+                    } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Hour) {
+                        if rmd.recurrenceCycleQty == 1 {
+                            recurIntegerLabel.text = "60"
+                        } else {
+                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                        }
+                    } else {
+                        recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                    }
+                } else {
+                    doneButton.imageView?.image = UIImage(named: "ReminderDoneButton")
+                }
             }
         }
     }
@@ -32,6 +58,7 @@ class ReminderTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var dueDate: UILabel!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var recurIntegerLabel: UILabel!
     
     @IBAction func doneButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
