@@ -103,8 +103,25 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 reminder.dueDate?.timeIntervalSinceDate(reminders[nextRow].dueDate!) > 0
             
             if rmdHasMovedUp || rmdHasMovedDown {
-                shiftReminder(reminder, toPositionForDate: reminder.dueDate!) // handlesNotification changes
-                reminder.oldDueDate = nil
+                let isRecurring = reminder.isRecurring
+                let recurQty = reminder.recurrenceCycleQty
+                let recurUnit = reminder.recurrenceCycleUnit
+                
+                if let newRmd = shiftReminder(reminder, toPositionForDate: reminder.dueDate!) { // handlesNotification changes
+                    newRmd.isRecurring = isRecurring
+                    newRmd.recurrenceCycleQty = recurQty
+                    newRmd.recurrenceCycleUnit = recurUnit
+                    if newRmd.nextRecurringDate == nil {
+                        newRmd.updateNextRecurringDueDate()
+                    }
+                    newRmd.oldDueDate = nil
+                    
+                    if let row = reminders.indexOf(newRmd) {
+                        let indexPath = NSIndexPath(forRow: row, inSection: 0)
+                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                    }
+                }
+                
                 fetchSortedReminders()
             } else {
                 fetchSortedReminders()
@@ -153,6 +170,9 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             let isRecurring = rmd.isRecurring
             let recurrenceCycleQty = rmd.recurrenceCycleQty
             let recurrenceCycleUnit = rmd.recurrenceCycleUnit
+            
+            print("rmd \(rmd)")
+            print("nextRecurringDate \(rmd.nextRecurringDate)")
             
             if let newRmd = shiftReminder(rmd, toPositionForDate: rmd.nextRecurringDate!) {
                 newRmd.isRecurring = isRecurring

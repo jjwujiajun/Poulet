@@ -72,8 +72,6 @@ class Functionalities {
                 
                 let dateMinute = gregorian.component(.Minute, fromDate: timeLabelDate)
                 let nowMinute = gregorian.component(.Minute, fromDate: NSDate())
-                print("date: \(dateMinute)")
-                print("now: \(nowMinute)")
                 let minuteDifference = abs(dateMinute - nowMinute)
                 
                 if dateMinute == nowMinute {

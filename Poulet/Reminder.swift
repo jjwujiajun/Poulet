@@ -41,7 +41,6 @@ class Reminder: NSManagedObject {
             } else {
                 nextRecurringDate = dueDate?.dateByAddingTimeInterval(timeToNextDueDate)
             }
-            print(nextRecurringDate)
             isRecurring = true
         } else {
             isRecurring = false
