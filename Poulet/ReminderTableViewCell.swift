@@ -59,6 +59,8 @@ class ReminderTableViewCell: UITableViewCell {
     @IBOutlet weak var dueDate: UILabel!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var recurIntegerLabel: UILabel!
+    @IBOutlet weak var divider: UIView!
+    @IBOutlet weak var editButton: UIButton!
     
     @IBAction func doneButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -70,6 +72,16 @@ class ReminderTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func revealDrawer() {
+        divider.hidden = false
+        editButton.hidden = false
+    }
+    
+    func hideDrawer() {
+        divider.hidden = true
+        editButton.hidden = true
     }
 
 }

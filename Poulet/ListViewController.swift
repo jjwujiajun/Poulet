@@ -18,6 +18,9 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     private var reminders = [Reminder]()
     var newReminder: Reminder?
     var editedReminder: Reminder?
+    
+    private var selectedReminder = -1
+    private var reminderToHideDrawer = -1
 
     @IBAction func addReminder(sender: UIBarButtonItem) {
     }
@@ -241,11 +244,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showReminder" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
+            if selectedReminder != -1 {
+                let row = selectedReminder
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! ReminderViewController
-                controller.reminder = reminders[indexPath.row]
+                controller.reminder = reminders[row]
                 controller.listViewController = self
-                controller.reminderIndexPathInListView = indexPath
                 
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -274,8 +277,46 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         let cell = tableView.dequeueReusableCellWithIdentifier("ReminderCell", forIndexPath: indexPath) as! ReminderTableViewCell
         cell.reminder = reminders[indexPath.row]
         cell.tableView = self.tableView
+        cell.hideDrawer()
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        if selectedReminder == -1 {
+            selectedReminder = indexPath.row
+        } else if selectedReminder == indexPath.row {
+            selectedReminder = -1
+        } else {
+            reminderToHideDrawer = selectedReminder
+            selectedReminder = indexPath.row
+        }
+        
+        tableView.beginUpdates()
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        tableView.endUpdates()
+        
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ReminderTableViewCell
+        if selectedReminder != -1 {
+            cell.revealDrawer()
+        } else {
+            cell.hideDrawer()
+        }
+        
+        if reminderToHideDrawer != -1 {
+            let keepCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: reminderToHideDrawer, inSection: 0)) as! ReminderTableViewCell
+            keepCell.hideDrawer()
+            reminderToHideDrawer = -1
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if selectedReminder == indexPath.row {
+            return 125
+        } else {
+            return 77
+        }
     }
 
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

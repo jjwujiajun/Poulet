@@ -226,17 +226,17 @@
         <scene sceneID="smW-Zh-WAh">
             <objects>
                 <tableViewController title="Reminders" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="ListViewController" customModule="Poulet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ReminderCell" rowHeight="76" id="WCw-Qf-5nD" customClass="ReminderTableViewCell" customModule="Poulet" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="86" width="600" height="76"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ReminderCell" rowHeight="125" id="WCw-Qf-5nD" customClass="ReminderTableViewCell" customModule="Poulet" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="86" width="600" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="75.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="124.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItG-Sy-4lE">
@@ -250,6 +250,7 @@
                                             <rect key="frame" x="533" y="8" width="60" height="60"/>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="60" id="Ty3-L8-8vt"/>
                                                 <constraint firstAttribute="width" secondItem="Er6-Q2-6ne" secondAttribute="height" multiplier="1:1" id="Wpk-fN-DKA"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
@@ -258,15 +259,8 @@
                                                 <action selector="doneButtonPressed:" destination="WCw-Qf-5nD" eventType="touchUpInside" id="pJJ-nW-f1f"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="dueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyB-wV-ku5">
-                                            <rect key="frame" x="18" y="47" width="515" height="21"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="24" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMv-Du-EoW">
-                                            <rect key="frame" x="533" y="4.5" width="60" height="65"/>
+                                            <rect key="frame" x="533" y="4" width="60" height="65"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="42" id="9Wc-Fc-Uci"/>
@@ -281,16 +275,46 @@
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="dueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyB-wV-ku5">
+                                            <rect key="frame" x="18" y="47" width="515" height="21"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="PtA-gf-lM8"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MsZ-QZ-ntK" userLabel="Divider">
+                                            <rect key="frame" x="18" y="75" width="564" height="1"/>
+                                            <animations/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="IjI-PY-0eS"/>
+                                            </constraints>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppm-20-c1M">
+                                            <rect key="frame" x="552" y="84" width="30" height="30"/>
+                                            <animations/>
+                                            <state key="normal" title="Edit"/>
+                                            <connections>
+                                                <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showReminder" id="wfZ-Rf-6MW"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <constraints>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="top" secondItem="ItG-Sy-4lE" secondAttribute="bottom" id="1ti-wS-3V2"/>
+                                        <constraint firstItem="Ppm-20-c1M" firstAttribute="trailing" secondItem="MsZ-QZ-ntK" secondAttribute="trailing" id="4A5-Df-Tjt"/>
                                         <constraint firstItem="gMv-Du-EoW" firstAttribute="centerX" secondItem="Er6-Q2-6ne" secondAttribute="centerX" id="4W1-8e-JTc"/>
+                                        <constraint firstItem="Ppm-20-c1M" firstAttribute="top" secondItem="MsZ-QZ-ntK" secondAttribute="bottom" constant="8" symbolic="YES" id="5kd-gR-aAm"/>
+                                        <constraint firstItem="MsZ-QZ-ntK" firstAttribute="top" secondItem="RyB-wV-ku5" secondAttribute="bottom" constant="8" symbolic="YES" id="67C-wU-lNV"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="RyB-wV-ku5" secondAttribute="bottom" id="BPt-EC-B3n"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="leading" secondItem="RyB-wV-ku5" secondAttribute="trailing" id="Bew-w3-6Zb"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="RyB-wV-ku5" secondAttribute="bottom" id="Fua-H7-Cgd"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="trailing" secondItem="37f-cq-3Eg" secondAttribute="trailingMargin" id="JVC-eT-7wz"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="gMv-Du-EoW" secondAttribute="trailing" constant="9" id="KAC-MK-6em"/>
+                                        <constraint firstItem="MsZ-QZ-ntK" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="KNt-Ky-511"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="Mbi-3Q-ovk"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="bottom" secondItem="37f-cq-3Eg" secondAttribute="bottomMargin" id="QaA-Gm-q3M"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="ItG-Sy-4lE" secondAttribute="leading" constant="-5" id="Tez-pz-gkp"/>
@@ -298,6 +322,7 @@
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="Y1Q-Vz-Of3"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="trailing" secondItem="ItG-Sy-4lE" secondAttribute="trailing" id="c68-3J-UJD"/>
                                         <constraint firstItem="gMv-Du-EoW" firstAttribute="centerY" secondItem="Er6-Q2-6ne" secondAttribute="centerY" constant="-1" id="cGB-kb-PZV"/>
+                                        <constraint firstItem="RyB-wV-ku5" firstAttribute="top" secondItem="ItG-Sy-4lE" secondAttribute="bottom" constant="8" symbolic="YES" id="dxy-Mg-nT7"/>
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="leading" id="eXS-F9-6zI"/>
                                         <constraint firstItem="Er6-Q2-6ne" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="fuU-Bx-zLa"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ItG-Sy-4lE" secondAttribute="trailing" constant="50" id="hcP-2u-Xgo"/>
@@ -305,6 +330,7 @@
                                         <constraint firstItem="RyB-wV-ku5" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="i9T-KK-IYU"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="lML-Id-GR5"/>
                                         <constraint firstItem="gMv-Du-EoW" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" constant="19" id="nGQ-4G-zgA"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="MsZ-QZ-ntK" secondAttribute="trailing" constant="10" id="rZS-Hs-foD"/>
                                         <constraint firstItem="ItG-Sy-4lE" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" constant="10" id="tTu-ZR-vNb"/>
                                         <constraint firstItem="gMv-Du-EoW" firstAttribute="leading" secondItem="ItG-Sy-4lE" secondAttribute="trailing" constant="8" symbolic="YES" id="wdN-Tp-T2w"/>
                                     </constraints>
@@ -314,6 +340,7 @@
                                             <exclude reference="hcP-2u-Xgo"/>
                                             <exclude reference="lML-Id-GR5"/>
                                             <exclude reference="1ti-wS-3V2"/>
+                                            <exclude reference="BPt-EC-B3n"/>
                                             <exclude reference="Fua-H7-Cgd"/>
                                             <exclude reference="Y1Q-Vz-Of3"/>
                                             <exclude reference="c68-3J-UJD"/>
@@ -321,17 +348,19 @@
                                             <exclude reference="KAC-MK-6em"/>
                                             <exclude reference="nGQ-4G-zgA"/>
                                             <exclude reference="wdN-Tp-T2w"/>
+                                            <exclude reference="QaA-Gm-q3M"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="divider" destination="MsZ-QZ-ntK" id="iFm-mk-f43"/>
                                     <outlet property="doneButton" destination="Er6-Q2-6ne" id="Sqy-Rs-Jgz"/>
                                     <outlet property="dueDate" destination="RyB-wV-ku5" id="Bzi-fy-7EC"/>
+                                    <outlet property="editButton" destination="Ppm-20-c1M" id="DnZ-ys-MwP"/>
                                     <outlet property="name" destination="ItG-Sy-4lE" id="XiG-6X-tmp"/>
                                     <outlet property="recurIntegerLabel" destination="gMv-Du-EoW" id="Q6V-k8-qvY"/>
-                                    <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showReminder" id="6S0-TO-JiA"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -804,6 +833,6 @@
         <image name="ReminderDoneButton" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6S0-TO-JiA"/>
+        <segue reference="wfZ-Rf-6MW"/>
     </inferredMetricsTieBreakers>
 </document>

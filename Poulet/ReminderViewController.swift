@@ -27,7 +27,6 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     
     // MARK: - Logic properties
     var listViewController = ListViewController()
-    var reminderIndexPathInListView = NSIndexPath()
     var reminderFieldsWasEdited = false
     var reminder: Reminder? {
         didSet {
