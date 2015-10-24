@@ -98,6 +98,10 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     func editReminder(reminder: Reminder) {
         if let oldRow = reminders.indexOf(reminder) {
             
+            // Close Reminder drawer
+            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: oldRow, inSection: 0)) as! ReminderTableViewCell
+            cell.hideDrawer()
+            selectedReminder = -1
             tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: oldRow, inSection: 0)], withRowAnimation: .Automatic)
             
             let previousRow = oldRow - 1
@@ -169,6 +173,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     private func doneReminder(rmd: Reminder) {
+        
+        // Close Reminder drawer
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedReminder, inSection: 0)) as! ReminderTableViewCell
+        cell.hideDrawer()
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: selectedReminder, inSection: 0)], withRowAnimation: .Automatic)
+        selectedReminder = -1
         
         rmd.isDone? = NSNumber(bool: true)
         

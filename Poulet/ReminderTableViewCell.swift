@@ -71,6 +71,9 @@ class ReminderTableViewCell: UITableViewCell {
     }
     
     @IBAction func postponeButtonPressed(sender: UIButton) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = NSNotification(name: Functionalities.Notification.ReminderPostpone, object: self, userInfo: [Functionalities.Notification.ReminderUUID: reminder?.uuid as! String])
+        notificationCenter.postNotification(notification)
     }
     
     @IBAction func bugButtonPressed(sender: UIButton) {
