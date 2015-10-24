@@ -61,11 +61,19 @@ class ReminderTableViewCell: UITableViewCell {
     @IBOutlet weak var recurIntegerLabel: UILabel!
     @IBOutlet weak var divider: UIView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var postponeButtonContainer: UIView!
+    @IBOutlet weak var bugButton: UIButton!
     
     @IBAction func doneButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         let notification = NSNotification(name: Functionalities.Notification.ReminderDone, object: self, userInfo: [Functionalities.Notification.ReminderUUID: reminder?.uuid as! String])
         notificationCenter.postNotification(notification)
+    }
+    
+    @IBAction func postponeButtonPressed(sender: UIButton) {
+    }
+    
+    @IBAction func bugButtonPressed(sender: UIButton) {
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -77,11 +85,16 @@ class ReminderTableViewCell: UITableViewCell {
     func revealDrawer() {
         divider.hidden = false
         editButton.hidden = false
+        postponeButtonContainer.hidden = false
+        bugButton.hidden = false
+
     }
     
     func hideDrawer() {
         divider.hidden = true
         editButton.hidden = true
+        postponeButtonContainer.hidden = true
+        bugButton.hidden = true
     }
 
 }

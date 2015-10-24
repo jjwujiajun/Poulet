@@ -75,6 +75,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
         
         if editedReminder != nil {
+            selectedReminder = -1
             editReminder(editedReminder!)
             editedReminder = nil
         }
@@ -96,6 +97,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     func editReminder(reminder: Reminder) {
         if let oldRow = reminders.indexOf(reminder) {
+            
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: oldRow, inSection: 0)], withRowAnimation: .Automatic)
             
             let previousRow = oldRow - 1
             let rmdHasMovedUp = previousRow >= 0 &&
