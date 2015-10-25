@@ -99,11 +99,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     func editReminder(reminder: Reminder) {
         if let oldRow = reminders.indexOf(reminder) {
             
-            // Close Reminder drawer
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: oldRow, inSection: 0)) as! ReminderTableViewCell
-            cell.hideDrawer()
-            selectedReminder = -1
-            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: oldRow, inSection: 0)], withRowAnimation: .Automatic)
+//            // Close Reminder drawer
+//            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: oldRow, inSection: 0)) as! ReminderTableViewCell
+//            cell.hideDrawer()
+//            selectedReminder = -1
+//            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: oldRow, inSection: 0)], withRowAnimation: .Automatic)
             
             let previousRow = oldRow - 1
             let rmdHasMovedUp = previousRow >= 0 &&
@@ -291,7 +291,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         let cell = tableView.dequeueReusableCellWithIdentifier("ReminderCell", forIndexPath: indexPath) as! ReminderTableViewCell
         cell.reminder = reminders[indexPath.row]
         cell.tableView = self.tableView
-        cell.hideDrawer()
+        
+        if indexPath.row == selectedReminder {
+            cell.revealDrawer()
+        } else {
+            cell.hideDrawer()
+        }
 
         return cell
     }
