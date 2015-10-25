@@ -39,6 +39,7 @@ class Functionalities {
         static let EnterAppByNotification = "enterAppByNotification"
         static let ReminderDone = "reminderDone"
         static let ReminderPostpone = "reminderPostpone"
+        static let ReminderDelete = "reminderDelete"
         static let ResigningActive = "resigningActive"
         static let RefreshTable = "refreshTable"
         

@@ -53,6 +53,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             self.notifyAppResigningActive(notif) }
         center.addObserverForName(FN.ReminderDone, object: nil, queue: queue) { notif in self.notifyReminderDone(notif) }
         center.addObserverForName(FN.ReminderPostpone, object: nil, queue: queue) { notif in self.notifyReminderPostpone(notif) }
+        center.addObserverForName(FN.ReminderDelete, object: nil, queue: queue) { notif in self.notifyReminderDelete(notif) }
     
         // Set up display
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
@@ -148,18 +149,27 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     private func deleteReminder(rmd: Reminder) {
+        
+        // Close Reminder drawer – must be done before core data is deleted
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedReminder, inSection: 0)) as! ReminderTableViewCell
+        cell.hideDrawer()
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: selectedReminder, inSection: 0)], withRowAnimation: .Automatic)
+        selectedReminder = -1
+        
+        // Hold logical data before core data is deleted
         var path: NSIndexPath?
         if let row = reminders.indexOf(rmd) {
             path = NSIndexPath(forRow: row, inSection: 0)
         }
         let thisFuncIsPartOfShiftingProcess = rmd.oldDueDate != nil
-         
         let uuid = rmd.uuid as String?
         
+        // Core data – delete reminder
         managedObjectContext.deleteObject(rmd) // Non-core data implementation: reminders.removeAtIndex(row)
         fetchSortedReminders()
         saveReminders()
         
+        // Animation and notification
         if path != nil {
             if thisFuncIsPartOfShiftingProcess {
                 tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: .Right)
@@ -174,21 +184,12 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     private func doneReminder(rmd: Reminder) {
         
-        // Close Reminder drawer
-        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedReminder, inSection: 0)) as! ReminderTableViewCell
-        cell.hideDrawer()
-        tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: selectedReminder, inSection: 0)], withRowAnimation: .Automatic)
-        selectedReminder = -1
-        
         rmd.isDone? = NSNumber(bool: true)
         
         if rmd.isRecurring?.boolValue ?? false {
             let isRecurring = rmd.isRecurring
             let recurrenceCycleQty = rmd.recurrenceCycleQty
             let recurrenceCycleUnit = rmd.recurrenceCycleUnit
-            
-            print("rmd \(rmd)")
-            print("nextRecurringDate \(rmd.nextRecurringDate)")
             
             if let newRmd = shiftReminder(rmd, toPositionForDate: rmd.nextRecurringDate!) {
                 newRmd.isRecurring = isRecurring
@@ -474,6 +475,16 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             for rmd in self.reminders {
                 if rmd.uuid == uuid {
                     postponeReminder(rmd, byTimeInterval:1 * Functionalities.Time.Hour)
+                }
+            }
+        }
+    }
+    
+    private func notifyReminderDelete(notification: NSNotification) {
+        if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
+            for rmd in self.reminders {
+                if rmd.uuid == uuid {
+                    deleteReminder(rmd)
                 }
             }
         }

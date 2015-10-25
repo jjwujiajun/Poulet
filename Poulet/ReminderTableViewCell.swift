@@ -63,6 +63,7 @@ class ReminderTableViewCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var postponeButtonContainer: UIView!
     @IBOutlet weak var bugButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     @IBAction func doneButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -79,6 +80,12 @@ class ReminderTableViewCell: UITableViewCell {
     @IBAction func bugButtonPressed(sender: UIButton) {
     }
     
+    @IBAction func deleteButtonPressed(sender: UIButton) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = NSNotification(name: Functionalities.Notification.ReminderDelete, object: self, userInfo: [Functionalities.Notification.ReminderUUID: reminder?.uuid as! String])
+        notificationCenter.postNotification(notification)
+    }
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -90,7 +97,7 @@ class ReminderTableViewCell: UITableViewCell {
         editButton.hidden = false
         postponeButtonContainer.hidden = false
         bugButton.hidden = false
-
+        deleteButton.hidden = false
     }
     
     func hideDrawer() {
@@ -98,6 +105,7 @@ class ReminderTableViewCell: UITableViewCell {
         editButton.hidden = true
         postponeButtonContainer.hidden = true
         bugButton.hidden = true
+        deleteButton.hidden = true
     }
 
 }
