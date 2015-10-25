@@ -76,7 +76,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
         
         if editedReminder != nil {
-            selectedReminder = -1
             editReminder(editedReminder!)
             editedReminder = nil
         }
@@ -98,12 +97,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     func editReminder(reminder: Reminder) {
         if let oldRow = reminders.indexOf(reminder) {
-            
-//            // Close Reminder drawer
-//            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: oldRow, inSection: 0)) as! ReminderTableViewCell
-//            cell.hideDrawer()
-//            selectedReminder = -1
-//            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: oldRow, inSection: 0)], withRowAnimation: .Automatic)
             
             let previousRow = oldRow - 1
             let rmdHasMovedUp = previousRow >= 0 &&
@@ -337,22 +330,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             return 77
         }
     }
-
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            
-            deleteReminder(reminders[indexPath.row])
-            // Non-core data execution          reminders.removeAtIndex(indexPath.row)
-            
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-        }
-    }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if let reminderCell = cell as? ReminderTableViewCell {
@@ -361,6 +338,23 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             } else {
                 reminderCell.backgroundColor = Functionalities.ReminderCell.notDueColor
             }
+        }
+    }
+    
+    // This two delegate methods go hand-in-hand.
+    // If canEditRowAtIndexPath returns false, then cannot slide UITableViewCell to select options in commitEditingStyle:ForRowAtIndexPath
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return false
+    }
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            
+            deleteReminder(reminders[indexPath.row])
+            // Non-core data execution          reminders.removeAtIndex(indexPath.row)
+            
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
     
