@@ -168,10 +168,12 @@ class ReminderViewController: UITableViewController, UITextViewDelegate, UIPicke
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 {
+            print(reminderNameLabel2.contentSize.height)
             if reminderNameLabel2.contentSize.height >= 32 {
-                let newSize = reminderNameLabel2.sizeThatFits(CGSize(width: tableView.frame.width - 10, height: CGFloat.max))
+                let newSize = reminderNameLabel2.sizeThatFits(CGSize(width: reminderNameLabel2.frame.width, height: CGFloat.max))
                 let newCellHeight = newSize.height + 8
                 
+                print(newCellHeight)
                 return newCellHeight
             } else {
                 return 32

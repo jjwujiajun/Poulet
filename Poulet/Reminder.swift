@@ -19,8 +19,22 @@ class Reminder: NSManagedObject {
     @NSManaged var recurrenceCycleQty: NSNumber?
     @NSManaged var recurrenceCycleUnit: NSNumber?
     @NSManaged var uuid: NSString?
+    @NSManaged var isBuggedCD: NSNumber?
     
     var oldDueDate: NSDate?
+    
+    var isBugged: Bool {
+        get {
+            if let theBool = isBuggedCD?.boolValue {
+                return theBool
+            } else {
+                return false
+            }
+        }
+        set {
+            isBuggedCD = NSNumber(bool: newValue)
+        }
+    }
     
     func updateRecurrenceForPickerIndexes(quantityIndex:Int, unitIndex:Int) {
         recurrenceCycleQty = quantityIndex

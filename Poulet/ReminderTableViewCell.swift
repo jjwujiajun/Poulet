@@ -22,33 +22,8 @@ class ReminderTableViewCell: UITableViewCell {
                 if let rmdDueDate = rmd.dueDate {
                     dueDate?.text = Functionalities.dateFormatter(rmdDueDate)
                 }
-                recurIntegerLabel.text = ""
-                if rmd.isRecurring == 1{
-                    doneButton.imageView?.image = UIImage(named: "ReminderRecurButton")
-                    if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Day) {
-                        if rmd.recurrenceCycleQty == 1 {
-                            recurIntegerLabel.text = "24"
-                        } else {
-                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
-                        }
-                    } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Week) {
-                        if rmd.recurrenceCycleQty == 1 {
-                            recurIntegerLabel.text = "7"
-                        } else {
-                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
-                        }
-                    } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Hour) {
-                        if rmd.recurrenceCycleQty == 1 {
-                            recurIntegerLabel.text = "60"
-                        } else {
-                            recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
-                        }
-                    } else {
-                        recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
-                    }
-                } else {
-                    doneButton.imageView?.image = UIImage(named: "ReminderDoneButton")
-                }
+                updateDoneButton()
+                updateBugButtonImage()
             }
         }
     }
@@ -78,8 +53,19 @@ class ReminderTableViewCell: UITableViewCell {
     }
     
     @IBAction func bugButtonPressed(sender: UIButton) {
+        
+        if reminder != nil {
+            reminder!.isBugged = !reminder!.isBugged
+
+            updateBugButtonImage()
+            
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            let notification = NSNotification(name: Functionalities.Notification.ReminderBug, object: self, userInfo:
+                [Functionalities.Notification.ReminderUUID: reminder!.uuid as! String])
+            notificationCenter.postNotification(notification)
+        }
     }
-    
+   
     @IBAction func deleteButtonPressed(sender: UIButton) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         let notification = NSNotification(name: Functionalities.Notification.ReminderDelete, object: self, userInfo: [Functionalities.Notification.ReminderUUID: reminder?.uuid as! String])
@@ -90,6 +76,50 @@ class ReminderTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    private func updateDoneButton() {
+        if let rmd = reminder {
+            recurIntegerLabel.text = ""
+            if rmd.isRecurring == 1{
+                doneButton.imageView?.image = UIImage(named: "ReminderRecurButton")
+                if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Day) {
+                    if rmd.recurrenceCycleQty == 1 {
+                        recurIntegerLabel.text = "24"
+                    } else {
+                        recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                    }
+                } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Week) {
+                    if rmd.recurrenceCycleQty == 1 {
+                        recurIntegerLabel.text = "7"
+                    } else {
+                        recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                    }
+                } else if rmd.recurrenceCycleUnit as? Int == Functionalities.Time.unitsArray.indexOf(Functionalities.Time.Hour) {
+                    if rmd.recurrenceCycleQty == 1 {
+                        recurIntegerLabel.text = "60"
+                    } else {
+                        recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                    }
+                } else {
+                    recurIntegerLabel.text = "\(rmd.recurrenceCycleQty as! Int)"
+                }
+            } else {
+                doneButton.imageView?.image = UIImage(named: "ReminderDoneButton")
+            }
+        }
+    }
+    
+    private func updateBugButtonImage() {
+        if reminder!.isBugged {
+            if let newImage = UIImage(named: "BugButton_Selected") {
+                bugButton.setImage(newImage, forState: .Normal)
+            }
+        } else {
+            if let newImage = UIImage(named: "BugButton") {
+                bugButton.setImage(newImage, forState: .Normal)
+            }
+        }
     }
     
     func revealDrawer() {

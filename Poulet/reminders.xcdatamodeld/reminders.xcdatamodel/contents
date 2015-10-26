@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="15A284" minimumToolsVersion="Xcode 7.0">
     <entity name="Reminder" representedClassName=".Reminder" syncable="YES">
         <attribute name="dueDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isBuggedCD" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isDone" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isRecurring" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,6 +12,6 @@
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="180"/>
     </elements>
 </model>

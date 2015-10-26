@@ -36,7 +36,6 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Scheduled LocalNotif : \(application.scheduledLocalNotifications?.count ?? 0)")
         
         // TODO: Refresh table every 1 minute/"n" seconds (Use NSFetchedResultsController for notifying tabableview when datachanges?)
         
@@ -52,6 +51,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         center.addObserverForName(FN.ResigningActive, object: nil, queue: queue) { notif in
             self.notifyAppResigningActive(notif) }
         center.addObserverForName(FN.ReminderDone, object: nil, queue: queue) { notif in self.notifyReminderDone(notif) }
+        center.addObserverForName(FN.ReminderBug, object: nil, queue: queue) { notif in self.notifyReminderBug(notif) }
         center.addObserverForName(FN.ReminderPostpone, object: nil, queue: queue) { notif in self.notifyReminderPostpone(notif) }
         center.addObserverForName(FN.ReminderDelete, object: nil, queue: queue) { notif in self.notifyReminderDelete(notif) }
     
@@ -64,12 +64,14 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     override func viewDidAppear(animated: Bool) {
+        print("Scheduled LocalNotif : \(application.scheduledLocalNotifications?.count ?? 0)")
+        
         super.viewDidAppear(animated)
         print("vda")
         if newReminder != nil { // If view appeared after AddRmdVC created new rmd
             fetchSortedReminders()
             saveReminders()
-            createLocalNotification(newReminder!)
+            createLocalNotification(newReminder!, isForBugging: false)
             animateInsertRmdIntoList(newReminder!)
             
             newReminder = nil
@@ -90,7 +92,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         
         let thisFuncIsPartOfShiftingProcess = reminder.oldDueDate != nil
         if !thisFuncIsPartOfShiftingProcess {
-            createLocalNotification(reminder)
+            createLocalNotification(reminder, isForBugging: false)
         }
         animateInsertRmdIntoList(reminder)
     }
@@ -132,7 +134,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 fetchSortedReminders()
                 tableView.reloadData()
                 if reminder.oldDueDate != reminder.dueDate {
-                    deleteLocalNotificationForReminder(reminder.uuid as String?)
+                    deleteLocalNotificationForReminder(reminder.uuid as String?, isForBugging: false)
                     fillEmptySlotInNotificationQueue()
                 }
             }
@@ -169,7 +171,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: .Right)
             } else {
                 tableView.deleteRowsAtIndexPaths([path!], withRowAnimation: .Fade)
-                deleteLocalNotificationForReminder(uuid)
+                deleteLocalNotificationForReminder(uuid, isForBugging: false)
                 fillEmptySlotInNotificationQueue()
             }
             application.applicationIconBadgeNumber -= 1
@@ -240,7 +242,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             
             insertNewReminder(reminder)
             
-            deleteLocalNotificationForReminder(uuid as String?)
+            deleteLocalNotificationForReminder(uuid as String?, isForBugging: false)
             fillEmptySlotInNotificationQueue()
             
             return reminder
@@ -382,7 +384,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     }
     
     // MARK: - Local Notifications
-    private func createLocalNotification(reminder: Reminder) {
+    private func createLocalNotification(reminder: Reminder, isForBugging: Bool) {
         let scheduledLocalNotifications = application.scheduledLocalNotifications
         if let count = scheduledLocalNotifications?.count {
             
@@ -391,17 +393,28 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 // Create a corresponding local notification
                 let notification = UILocalNotification()
                 notification.alertBody = reminder.name
-                notification.fireDate = reminder.dueDate
                 notification.soundName = UILocalNotificationDefaultSoundName
-                notification.userInfo = [Functionalities.Notification.ReminderUUID: reminder.uuid! as String] // assign a unique identifier to the notification so that we can retrieve it later
-                
-                notification.alertAction = "Open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+                notification.userInfo = [Functionalities.Notification.ReminderUUID: reminder.uuid! as String]
+                notification.alertAction = "Open" //defaults to "slide to view"
                 notification.category = Functionalities.Notification.Category_ToDo
-                notification.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
+                
+                if isForBugging {
+                    notification.fireDate = reminder.dueDate?.dateByAddingTimeInterval(1 * Functionalities.Time.Minute)
+                    notification.repeatInterval = .Minute
+                } else {
+                    notification.fireDate = reminder.dueDate
+                    notification.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
+                }
                 
                 // if reminder is < 64th, schedule. Update when old ones are completed
                 application.scheduleLocalNotification(notification)
                 print("created notif: " + notification.alertBody!)
+                if !isForBugging {
+                    if reminder.isBugged {
+                        print("creating accompanying bugging notif...")
+                        createLocalNotification(reminder, isForBugging: true)
+                    }
+                }
                 
             } else if let lastScheduledRmdNotif = scheduledLocalNotifications?[count - 1] {
                 if let lastScheduledRmdUserInfo = lastScheduledRmdNotif.userInfo {
@@ -412,8 +425,8 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                                 
                                 if reminder.dueDate?.timeIntervalSinceDate(lastScheduledRmdDueDate) < 0 {
                                     
-                                    deleteLocalNotificationForReminder(rmd.uuid as String?)
-                                    createLocalNotification(reminder)
+                                    deleteLocalNotificationForReminder(rmd.uuid as String?, isForBugging: false)
+                                    createLocalNotification(reminder, isForBugging: isForBugging)
                                 }
                                 break
                             }
@@ -424,16 +437,30 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    private func deleteLocalNotificationForReminder(UUID: String?) {
+    private func deleteLocalNotificationForReminder(UUID: String?, isForBugging: Bool) {
         if UUID != nil {
             if let scheduledNotifications = application.scheduledLocalNotifications {
-                for notification in scheduledNotifications {
-                    if let userInfo = notification.userInfo {
-                        if userInfo[Functionalities.Notification.ReminderUUID] as? String == UUID {
-                            application.cancelLocalNotification(notification)
-                            print("cancelled notif: " + notification.alertBody!)
-                            
-                            break
+                
+                if isForBugging {
+                    for notification in scheduledNotifications {
+                        if notification.repeatInterval == .Minute {
+                            if notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String == UUID {
+                                application.cancelLocalNotification(notification)
+                                print("cancelled bugging notif: " + notification.alertBody!)
+                                break
+                            }
+                        }
+                    }
+                } else {
+                    for notification in scheduledNotifications {
+                        if let userInfo = notification.userInfo {
+                            if userInfo[Functionalities.Notification.ReminderUUID] as? String == UUID {
+                                application.cancelLocalNotification(notification)
+                                print("cancelled notif: " + notification.alertBody!)
+                                print("deleting accompanying bugging notif...")
+                                deleteLocalNotificationForReminder(UUID, isForBugging: true)
+                                break
+                            }
                         }
                     }
                 }
@@ -452,7 +479,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 i++;
                 if i == Functionalities.Notification.ScheduleLimit || i == reminders.count {
                     print("Fill slot with " + rmd.name! + " by: ")
-                    createLocalNotification(rmd)
+                    createLocalNotification(rmd, isForBugging: false)
                     break
                 }
             }
@@ -465,6 +492,26 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
             for rmd in self.reminders {
                 if rmd.uuid == uuid {
                     self.doneReminder(rmd)
+                }
+            }
+        }
+    }
+    
+    private func notifyReminderBug(notification: NSNotification) {
+        if let uuid = notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String {
+            for rmd in self.reminders {
+                if rmd.uuid == uuid {
+                    
+                    if rmd.isBugged {
+                    
+                        // Create bugging notification
+                        print("Creating bug notif.")
+                        createLocalNotification(rmd, isForBugging: true)
+                    } else {
+                        
+                        // Delete bugging notification
+                        deleteLocalNotificationForReminder(uuid, isForBugging: true)
+                    }
                 }
             }
         }
