@@ -42,27 +42,33 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Reminder" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0rS-j3-qOC">
-                                                    <rect key="frame" x="18" y="10" width="565" height="24"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="reminderName" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RFF-Ta-SzI">
+                                                    <rect key="frame" x="13" y="3" width="579" height="40"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                                </textField>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="0rS-j3-qOC" secondAttribute="trailing" constant="9" id="Vyd-9v-tuN"/>
-                                                <constraint firstItem="0rS-j3-qOC" firstAttribute="top" secondItem="Ajf-17-zcS" secondAttribute="topMargin" constant="2" id="kp5-I8-ele"/>
-                                                <constraint firstItem="0rS-j3-qOC" firstAttribute="leading" secondItem="Ajf-17-zcS" secondAttribute="leadingMargin" constant="10" id="tPR-F0-wNw"/>
+                                                <constraint firstItem="RFF-Ta-SzI" firstAttribute="top" secondItem="Ajf-17-zcS" secondAttribute="topMargin" constant="-5" id="LZ8-HX-man"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="RFF-Ta-SzI" secondAttribute="bottom" id="Qc9-YJ-K7z"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="RFF-Ta-SzI" secondAttribute="trailing" id="dvC-24-Zbh"/>
+                                                <constraint firstItem="RFF-Ta-SzI" firstAttribute="leading" secondItem="Ajf-17-zcS" secondAttribute="leadingMargin" constant="5" id="mml-io-heq"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Qc9-YJ-K7z"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="yLT-n3-WW9">
-                                        <rect key="frame" x="0.0" y="108" width="600" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="43" id="yLT-n3-WW9">
+                                        <rect key="frame" x="0.0" y="108" width="600" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLT-n3-WW9" id="II7-us-Zu1">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="42.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n4-RJ-8PH">
@@ -90,11 +96,11 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="217" id="RRh-cA-pk1">
-                                        <rect key="frame" x="0.0" y="152" width="600" height="217"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="216" id="RRh-cA-pk1">
+                                        <rect key="frame" x="0.0" y="151" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" tableViewCell="RRh-cA-pk1" id="YwC-Cw-K6k">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="216.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="215.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" misplaced="YES" restorationIdentifier="dueDatePicker" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xoL-8O-LfJ">
@@ -126,11 +132,11 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="8yc-yU-rr1">
-                                        <rect key="frame" x="0.0" y="369" width="600" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="45" id="8yc-yU-rr1">
+                                        <rect key="frame" x="0.0" y="367" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8yc-yU-rr1" id="6eJ-64-XG8">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not repeated" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzI-G8-kik">
@@ -159,7 +165,7 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="186" id="xVo-V3-CXb">
-                                        <rect key="frame" x="0.0" y="413" width="600" height="186"/>
+                                        <rect key="frame" x="0.0" y="412" width="600" height="186"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xVo-V3-CXb" id="4Gk-Bt-z4b">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="185.5"/>
@@ -200,7 +206,7 @@
                         <outlet property="recurrencePicker" destination="BkM-bW-R4A" id="Kpp-ar-ocE"/>
                         <outlet property="reminderDateLabel" destination="0n4-RJ-8PH" id="ESL-cC-nX8"/>
                         <outlet property="reminderFieldsTable" destination="JRM-nZ-xMI" id="xes-ca-GHJ"/>
-                        <outlet property="reminderNameLabel" destination="0rS-j3-qOC" id="tBh-8f-wT8"/>
+                        <outlet property="reminderNameLabel2" destination="RFF-Ta-SzI" id="wOH-y2-EWs"/>
                         <outlet property="reminderRecurLabel" destination="fzI-G8-kik" id="qgm-rl-CZj"/>
                     </connections>
                 </tableViewController>

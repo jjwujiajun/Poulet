@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class ReminderViewController: UITableViewController, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // TODO: Let view be expandable just like native cal app
     
@@ -19,7 +19,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     
     // MARK: - View Outlets
     @IBOutlet weak var reminderFieldsTable: UITableView!
-    @IBOutlet weak var reminderNameLabel: UITextField!
+    @IBOutlet weak var reminderNameLabel2: UITextView!
     @IBOutlet weak var reminderDateLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var reminderRecurLabel: UILabel!
@@ -49,8 +49,9 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.delegate = self
         reminderFieldsTable.delegate = self
-        reminderNameLabel.delegate = self
+        reminderNameLabel2.delegate = self
         recurrencePicker.delegate = self
         recurrencePicker.dataSource = self
         
@@ -69,13 +70,14 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     }
     
     override func viewWillDisappear(animated: Bool) {
-        if reminderNameLabel.isFirstResponder() {
+        
+        if reminderNameLabel2.isFirstResponder() {
             saveNameLabelText()
+            
         }
         
         if reminderFieldsWasEdited {
             if reminder != nil {
-                
                 if reminder!.name?.characters.count == 0 {
                     reminder!.name = oldRmdNameLabel
                 }
@@ -94,7 +96,7 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     func configureView() {
         // Update the user interface for the detail item.
         if let rmd = reminder {
-            reminderNameLabel?.text = rmd.name
+            reminderNameLabel2?.text = rmd.name
             
             if let dueDate = rmd.dueDate {
                 reminderDateLabel?.text = Functionalities.dateFormatter(dueDate)
@@ -147,32 +149,50 @@ class ReminderViewController: UITableViewController, UITextFieldDelegate, UIPick
     
     // MARK: - Selector functions
     func reminderDateLabelTapped() {
-        if reminderNameLabel.isFirstResponder() {
-            reminderNameLabel.resignFirstResponder()
+        if reminderNameLabel2.isFirstResponder() {
+            reminderNameLabel2.resignFirstResponder()
         }
     }
     
     func reminderRecurLabelTapped() {
-        if reminderNameLabel.isFirstResponder() {
-            reminderNameLabel.resignFirstResponder()
+        if reminderNameLabel2.isFirstResponder() {
+            reminderNameLabel2.resignFirstResponder()
         }
-        
     }
     
-    // MARK: - Text Field
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
+    // MARK: - Text Field delegate
+    func textViewDidChange(textView: UITextView) {
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            if reminderNameLabel2.contentSize.height >= 32 {
+                let newSize = reminderNameLabel2.sizeThatFits(CGSize(width: tableView.frame.width - 10, height: CGFloat.max))
+                let newCellHeight = newSize.height + 8
+                
+                return newCellHeight
+            } else {
+                return 32
+            }
+        } else if indexPath.row == 1 || indexPath.row == 3 {
+            return 44
+        } else {
+            return 216
+        }
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
         saveNameLabelText()
-        
-        return true // if true, autocorrect and autocapitalization will be triggered
     }
     
     func saveNameLabelText() {
         if let rmd = reminder {
-            if rmd.name != reminderNameLabel.text {
-                rmd.name = reminderNameLabel.text
+            if rmd.name != reminderNameLabel2.text {
+                rmd.name = reminderNameLabel2.text
                 reminderFieldsWasEdited = true
+                print(reminderFieldsWasEdited)
             }
         }
     }

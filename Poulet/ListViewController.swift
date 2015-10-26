@@ -128,6 +128,7 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 
                 fetchSortedReminders()
             } else {
+                
                 fetchSortedReminders()
                 tableView.reloadData()
                 if reminder.oldDueDate != reminder.dueDate {
