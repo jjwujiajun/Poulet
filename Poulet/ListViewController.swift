@@ -137,11 +137,10 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                     deleteLocalNotificationForReminder(reminder.uuid as String?, isForBugging: false)
                     fillEmptySlotInNotificationQueue()
                 }
+                reminder.oldDueDate = nil
             }
             saveReminders()
         }
-        // TODO: notification.repeatInterval to make snooze * Note
-        // Note: this may affect applicationIconBadgeCount if it keeps firing
     }
     
     private func deleteReminder(rmd: Reminder) {
@@ -440,11 +439,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
     private func deleteLocalNotificationForReminder(UUID: String?, isForBugging: Bool) {
         if UUID != nil {
             if let scheduledNotifications = application.scheduledLocalNotifications {
-                
                 if isForBugging {
                     for notification in scheduledNotifications {
                         if notification.repeatInterval == .Minute {
-                            if notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String == UUID {
+                            if notification.userInfo?[Functionalities.Notification.ReminderUUID] as? String == UUID! {
+                                notification.repeatInterval = NSCalendarUnit(rawValue: 0)
                                 application.cancelLocalNotification(notification)
                                 print("cancelled bugging notif: " + notification.alertBody!)
                                 break
@@ -454,11 +453,11 @@ class ListViewController: UITableViewController, NSFetchedResultsControllerDeleg
                 } else {
                     for notification in scheduledNotifications {
                         if let userInfo = notification.userInfo {
-                            if userInfo[Functionalities.Notification.ReminderUUID] as? String == UUID {
+                            if userInfo[Functionalities.Notification.ReminderUUID] as? String == UUID! {
                                 application.cancelLocalNotification(notification)
                                 print("cancelled notif: " + notification.alertBody!)
                                 print("deleting accompanying bugging notif...")
-                                deleteLocalNotificationForReminder(UUID, isForBugging: true)
+                                deleteLocalNotificationForReminder(UUID!, isForBugging: true)
                                 break
                             }
                         }
