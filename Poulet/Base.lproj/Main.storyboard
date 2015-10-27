@@ -23,7 +23,7 @@
             </objects>
             <point key="canvasLocation" x="-38" y="-630"/>
         </scene>
-        <!--Detail-->
+        <!--Edit-->
         <scene sceneID="EHb-F3-06c">
             <objects>
                 <tableViewController id="8gI-HB-NQM" customClass="ReminderViewController" customModule="Poulet" customModuleProvider="target" sceneMemberID="viewController">
@@ -96,7 +96,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="216" id="RRh-cA-pk1">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="216" id="RRh-cA-pk1">
                                         <rect key="frame" x="0.0" y="151" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" tableViewCell="RRh-cA-pk1" id="YwC-Cw-K6k">
@@ -164,7 +164,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="186" id="xVo-V3-CXb">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="186" id="xVo-V3-CXb">
                                         <rect key="frame" x="0.0" y="412" width="600" height="186"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xVo-V3-CXb" id="4Gk-Bt-z4b">
@@ -200,7 +200,7 @@
                             <outlet property="delegate" destination="8gI-HB-NQM" id="fAW-bX-dn2"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Detail" id="ql3-Vp-kwF"/>
+                    <navigationItem key="navigationItem" title="Edit" id="ql3-Vp-kwF"/>
                     <connections>
                         <outlet property="datePicker" destination="xoL-8O-LfJ" id="cn7-O4-r2O"/>
                         <outlet property="recurrencePicker" destination="BkM-bW-R4A" id="Kpp-ar-ocE"/>
@@ -572,7 +572,7 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Reminders" id="Zdf-7t-Un8">
+                    <navigationItem key="navigationItem" title="Take it off your mind" id="Zdf-7t-Un8">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Cy2-sY-OaR">
                             <connections>
                                 <action selector="addReminder:" destination="7bK-jq-Zjz" id="t2E-Fv-jy9"/>
@@ -587,7 +587,7 @@
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
         </scene>
-        <!--Add Reminder View Controller-->
+        <!--What's on your mind?-->
         <scene sceneID="e8z-6e-iEn">
             <objects>
                 <viewController id="Vtj-1q-t8O" customClass="AddReminderViewController" customModule="Poulet" customModuleProvider="target" sceneMemberID="viewController">
@@ -599,7 +599,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's on your mind?" adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="I'm listening." adjustsFontSizeToFit="NO" minimumFontSize="20" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jPf-h7-nC9">
                                 <rect key="frame" x="20" y="72" width="560" height="24"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -962,7 +962,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Ttq-k3-Kiy">
+                    <navigationItem key="navigationItem" title="What's on your mind?" id="Ttq-k3-Kiy">
                         <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="64i-qk-Gde">
                             <connections>
                                 <segue destination="86k-8H-aLD" kind="unwind" identifier="cancel" unwindAction="unwindToList:" id="ae9-ZC-X7m"/>
